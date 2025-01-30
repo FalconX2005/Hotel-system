@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import uz.pdp.hotelsystem.entity.Employee;
+import uz.pdp.hotelsystem.payload.EmployeeDTO;
 import uz.pdp.hotelsystem.repository.EmployeeRepository;
 
 
