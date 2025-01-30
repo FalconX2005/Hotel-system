@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import uz.pdp.hotelsystem.entity.Employee;
+import uz.pdp.hotelsystem.payload.EmployeeDTO;
 import uz.pdp.hotelsystem.repository.EmployeeRepository;
 
 
@@ -28,16 +29,15 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public EmployeeDTO findById(@PathVariable Integer id) {
-        Optional<Employee> employee = employeeRepository.findById(Long.valueOf(id));
-        if (employee.isPresent()) {
-            Employee employee1 = employee.get();
+        Optional<Employee> optionalEmployee = employeeRepository.findById(Long.valueOf(id));
+        if (optionalEmployee.isPresent()) {
+            Employee employee = optionalEmployee.get();
             EmployeeDTO employeeDTO = new EmployeeDTO();
-            employeeDTO.setId(Math.toIntExact(employee1.getId()));
-            employeeDTO.setFirstName(employee1.getFirstName());
-            employeeDTO.setLastName(employee1.getLastName());
-            employeeDTO.setAge(employee1.getAge());
-            employeeDTO.setWorkTime(employee1.getWorkTime());
-            employeeDTO.setRole(employee1.getRole());
+            employeeDTO.setId(Math.toIntExact(employee.getId()));
+            employeeDTO.setLastName(employee.getLastName());
+            employeeDTO.setFirstName(employee.getFirstName());
+            employeeDTO.setAge(employee.getAge());
+            employeeDTO.setWorkTime(employee.getWorkTime());
             return employeeDTO;
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -54,7 +54,6 @@ public class EmployeeController {
         employee.setLastName(employeeDTO.getLastName());
         employee.setAge(employeeDTO.getAge());
         employee.setWorkTime(employeeDTO.getWorkTime());
-        employee.setRole(employeeDTO.getRole());
         employeeRepository.save(employee);
 
         return employeeDTO;
@@ -70,7 +69,6 @@ public class EmployeeController {
             employee1.setLastName(employeeDTO.getLastName());
             employee1.setAge(employeeDTO.getAge());
             employee1.setWorkTime(employeeDTO.getWorkTime());
-            employee1.setRole(employeeDTO.getRole());
             employeeRepository.save(employee1);
             return employeeDTO;
         } else {
