@@ -91,17 +91,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    public static void main(String[] args) {
-//
-//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//        String encode1 = passwordEncoder.encode("123456");
-//        String encode2 = passwordEncoder.encode("123456");
-//        String encode3 = passwordEncoder.encode("123456");
-//
-//        System.out.println(passwordEncoder.matches("123456", encode1));
-//        System.out.println(passwordEncoder.matches("123456", encode2));
-//        System.out.println(passwordEncoder.matches("123456", encode3));
-//
-//    }
-
 }
