@@ -3,6 +3,7 @@ package uz.pdp.hotelsystem.payload;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.pdp.hotelsystem.entity.User;
 import uz.pdp.hotelsystem.enums.RoleEnum;
 
 import java.sql.Timestamp;
@@ -17,6 +18,6 @@ public class EmployeeDTO {
     private String lastName;
     private Integer age;
     private Timestamp workTime;
-    private RoleEnum role;
+    private Integer userId;
 
 }

@@ -39,9 +39,9 @@ public class SecurityConfig {
 
                 .requestMatchers(
                         "/auth/login",
-                        "auth/sign-up",
-                        "/**.html",
-                        "/open",
+//                        "auth/sign-up",
+//                        "/**.html",
+//                        "/open",
                         "/**"
                 )
                 .permitAll()
@@ -63,28 +63,28 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-
-        String encodedPassword = passwordEncoder.encode("123");
-
-        System.out.println("password: " + encodedPassword);
-
-        UserDetails user = User
-                .withUsername("john")
-                .password(encodedPassword)
-                .roles("USER")
-                .build();
-
-        UserDetails admin = User
-                .withUsername("admin")
-                .password(encodedPassword)
-                .roles("ADMIN")
-                .build();
-
-        UserDetailsService userDetailsService = new InMemoryUserDetailsManager(user, admin);
-        return userDetailsService;
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+//
+//        String encodedPassword = passwordEncoder.encode("123");
+//
+//        System.out.println("password: " + encodedPassword);
+//
+//        UserDetails user = User
+//                .withUsername("john")
+//                .password(encodedPassword)
+//                .roles("USER")
+//                .build();
+//
+//        UserDetails admin = User
+//                .withUsername("admin")
+//                .password(encodedPassword)
+//                .roles("ADMIN")
+//                .build();
+//
+//        UserDetailsService userDetailsService = new InMemoryUserDetailsManager(user, admin);
+//        return userDetailsService;
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

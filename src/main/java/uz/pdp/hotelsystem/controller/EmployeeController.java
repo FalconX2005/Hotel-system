@@ -4,8 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import uz.pdp.hotelsystem.entity.Employee;
+import uz.pdp.hotelsystem.entity.User;
 import uz.pdp.hotelsystem.payload.EmployeeDTO;
 import uz.pdp.hotelsystem.repository.EmployeeRepository;
+import uz.pdp.hotelsystem.repository.UserRepository;
+import uz.pdp.hotelsystem.service.EmployeeService;
 
 
 import java.util.List;
@@ -18,8 +21,13 @@ public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
+    private final EmployeeService employeeService;
+    private final UserRepository userRepository;
+
+    public EmployeeController(EmployeeRepository employeeRepository, EmployeeService employeeService, UserRepository userRepository) {
         this.employeeRepository = employeeRepository;
+        this.employeeService = employeeService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -54,7 +62,14 @@ public class EmployeeController {
         employee.setLastName(employeeDTO.getLastName());
         employee.setAge(employeeDTO.getAge());
         employee.setWorkTime(employeeDTO.getWorkTime());
-        employeeRepository.save(employee);
+        Integer userId = employeeDTO.getUserId();
+        Optional<User> byId = userRepository.findById(userId);
+        if (byId.isPresent()) {
+            User user = byId.get();
+            employee.setUser(user);
+            employeeRepository.save(employee);
+        }
+
 
         return employeeDTO;
 
