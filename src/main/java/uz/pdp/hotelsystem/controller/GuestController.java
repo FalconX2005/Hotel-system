@@ -63,29 +63,26 @@ public class GuestController {
         guestRepository.save(guest);
         return ApiResult.success(guestDTO);
     }
-    @DeleteMapping
-    public ApiResult<GuestDTO> deleteGuest(@RequestBody GuestDTO guestDTO) {
+    @DeleteMapping("/{id}")
+    public ApiResult<GuestDTO> deleteGuest(@PathVariable Integer id
+                                           ) {
         Guest guest = new Guest();
-        if (Objects.isNull(guestDTO)){
-            return ApiResult.error("GuestDTO is null");
+        if (Objects.isNull(id)) {
+
+            return ApiResult.error("Bad request ");
         }
-        Optional<Guest> byId = guestRepository.findById(guestDTO.getId().longValue());
-//        byId.ifPresent(guestRepository::delete);
+        Optional<Guest> byId = guestRepository.findById(id.longValue());
         if(byId.isPresent()) {
             guestRepository.delete(byId.get());
-            return ApiResult.success(guestDTO);
+            return ApiResult.success("Guest deleted successfully");
         }
         return ApiResult.error("Guest not found");
     }
-    @PutMapping
-    public ApiResult<GuestDTO> updateGuest(@RequestBody GuestDTO guestDTO) {
-//        GuestDTO guestDTO1 = readGuest(guestDTO.getId()).getData();
-//        Guest guest = new Guest();
-//        guestDTO1.setFirstName(guestDTO.getFirstName());
-//        guestDTO1.setLastName(guestDTO.getLastName());
-//        guestDTO1.setPhoneNumber(guestDTO.getPhoneNumber());
-//        guestRepository.save(guestDTO1);
-        Optional<Guest> byId = guestRepository.findById(guestDTO.getId().longValue());
+    @PutMapping("/{id}")
+    public ApiResult<GuestDTO> updateGuest(@PathVariable Integer id
+            ,@RequestBody GuestDTO guestDTO) {
+
+        Optional<Guest> byId = guestRepository.findById(id.longValue());
         if (byId.isPresent()) {
             Guest guest = byId.get();
             guest.setFirstName(guestDTO.getFirstName());

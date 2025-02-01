@@ -99,8 +99,9 @@ public class RoomController {
 
 
     @PutMapping("/update/{id}")
-    public ApiResult<Room> update(@RequestBody RoomDTO roomDto) {
-        Optional<Room> byId = roomRepository.findById(Long.valueOf(roomDto.getId()));
+    public ApiResult<Room> update(@PathVariable Integer id ,
+            @RequestBody RoomDTO roomDto) {
+        Optional<Room> byId = roomRepository.findById(id.longValue());
 
 
         if (byId.isPresent()) {

@@ -75,9 +75,10 @@ public class EmployeeController {
 
     }
 
-    @PutMapping
-    public EmployeeDTO updateEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        Optional<Employee> employee = employeeRepository.findById(Long.valueOf(employeeDTO.getId()));
+    @PutMapping("/{id}")
+    public EmployeeDTO updateEmployee(@PathVariable Integer id ,
+                                      @RequestBody EmployeeDTO employeeDTO) {
+        Optional<Employee> employee = employeeRepository.findById(id.longValue());
         if (employee.isPresent()) {
             Employee employee1 = employee.get();
             employee1.setFirstName(employeeDTO.getFirstName());
@@ -91,7 +92,7 @@ public class EmployeeController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public void deleteEmployee(@PathVariable Integer id) {
         Optional<Employee> employee = employeeRepository.findById(Long.valueOf(id));
         employee.ifPresent(employeeRepository::delete);
