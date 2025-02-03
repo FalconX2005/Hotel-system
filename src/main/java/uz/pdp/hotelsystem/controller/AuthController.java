@@ -26,15 +26,21 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
+//    @GetMapping("/login")
+//    public
+
     @PostMapping("/login")
-    public String login(@RequestBody LoginDTO loginDTO,HttpServletRequest request) {
+    public ApiResult<?> login(@RequestBody LoginDTO loginDTO,
+                              HttpServletRequest request) {
         Optional<User> userByUsername = userRepository.getUserByUsername(loginDTO.getUsername());
         if(!userByUsername.isPresent()){
-            throw new RuntimeException("User not found");
+//            throw new RuntimeException("User not found");
+            return ApiResult.error("User not found");
         }
         User user = userByUsername.get();
         if(!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())){
-            throw new RuntimeException("Wrong password");
+//            throw new RuntimeException("Wrong password");
+            return ApiResult.error("Wrong password");
         }
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = new UsernamePasswordAuthenticationToken(
@@ -50,42 +56,44 @@ public class AuthController {
 
         session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
-        return "success";
+//        return "success";
+        return ApiResult.success("User logged in");
 
 
     }
 
-    @PostMapping("/sign-up")
-    public String signUp(@RequestBody SignUpDTO singUpDTO, HttpServletRequest request) {
+//    @PostMapping("/sign-up")
+//    public String signUp(@RequestBody SignUpDTO singUpDTO, HttpServletRequest request) {
+//
+//                Optional<User> optionalUser = userRepository.getUserByUsername(singUpDTO.getUsername());
+//                if (optionalUser.isPresent()) {
+//                    throw new RuntimeException("Username is already exist");
+//                }
+//             String encodedPassword = passwordEncoder.encode(singUpDTO.getPassword());
+//
+//                User user = new User();
+//                user.setUsername(singUpDTO.getUsername());
+//                user.setPassword(encodedPassword);
+//
+//                user.setRole(singUpDTO.getRole());
+//                userRepository.save(user);
+//
+//        SecurityContext securityContext = SecurityContextHolder.getContext();
+//
+//        Authentication authentication = new UsernamePasswordAuthenticationToken(
+//                user,
+//                null,
+//                user.getAuthorities()
+//        );
+//
+//        securityContext.setAuthentication(authentication);
+//
+//        HttpSession session = request.getSession();
+//
+//        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+//
+//
+//        return "success";
+//    }
 
-                Optional<User> optionalUser = userRepository.getUserByUsername(singUpDTO.getUsername());
-                if (optionalUser.isPresent()) {
-                    throw new RuntimeException("Username is already exist");
-                }
-             String encodedPassword = passwordEncoder.encode(singUpDTO.getPassword());
-
-                User user = new User();
-                user.setUsername(singUpDTO.getUsername());
-                user.setPassword(encodedPassword);
-
-                user.setRole(singUpDTO.getRole());
-                userRepository.save(user);
-
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                user,
-                null,
-                user.getAuthorities()
-        );
-
-        securityContext.setAuthentication(authentication);
-
-        HttpSession session = request.getSession();
-
-        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
-
-
-        return "success";
-    }
 }

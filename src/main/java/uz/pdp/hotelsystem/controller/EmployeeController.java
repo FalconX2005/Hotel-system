@@ -9,7 +9,7 @@ import uz.pdp.hotelsystem.entity.User;
 import uz.pdp.hotelsystem.payload.EmployeeDTO;
 import uz.pdp.hotelsystem.repository.EmployeeRepository;
 import uz.pdp.hotelsystem.repository.UserRepository;
-import uz.pdp.hotelsystem.service.EmployeeService;
+
 
 
 import java.util.List;
@@ -22,12 +22,11 @@ public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;
 
-    private final EmployeeService employeeService;
+
     private final UserRepository userRepository;
 
-    public EmployeeController(EmployeeRepository employeeRepository, EmployeeService employeeService, UserRepository userRepository) {
+    public EmployeeController(EmployeeRepository employeeRepository, UserRepository userRepository) {
         this.employeeRepository = employeeRepository;
-        this.employeeService = employeeService;
         this.userRepository = userRepository;
     }
 
