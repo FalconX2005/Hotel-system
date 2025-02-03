@@ -1,6 +1,7 @@
 package uz.pdp.hotelsystem.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import uz.pdp.hotelsystem.entity.Employee;
@@ -30,11 +31,13 @@ public class EmployeeController {
         this.userRepository = userRepository;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<Employee> findAll() {
         return employeeRepository.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public EmployeeDTO findById(@PathVariable Integer id) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(Long.valueOf(id));
@@ -51,7 +54,7 @@ public class EmployeeController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
@@ -75,6 +78,7 @@ public class EmployeeController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public EmployeeDTO updateEmployee(@PathVariable Integer id ,
                                       @RequestBody EmployeeDTO employeeDTO) {
@@ -92,6 +96,7 @@ public class EmployeeController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteEmployee(@PathVariable Integer id) {
         Optional<Employee> employee = employeeRepository.findById(Long.valueOf(id));

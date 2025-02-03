@@ -1,5 +1,6 @@
 package uz.pdp.hotelsystem.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Hotel;
 import uz.pdp.hotelsystem.payload.HotelDTO;
@@ -18,11 +19,12 @@ public class HotelController {
         this.hotelRepository = hotelRepository;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<Hotel> read() {
         return hotelRepository.findAll();
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     public ApiResult<HotelDTO> update(@RequestBody HotelDTO hotelDTO) {
         Hotel hotel = new Hotel();

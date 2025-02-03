@@ -1,5 +1,6 @@
 package uz.pdp.hotelsystem.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Hotel;
 import uz.pdp.hotelsystem.entity.Room;
@@ -22,6 +23,7 @@ public class RoomController {
         this.roomRepository = roomRepository;
         this.hotelRepository = hotelRepository;
     }
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @GetMapping
     public ApiResult<List<RoomDTO>> readAll() {
         List<RoomDTO> rooms = new ArrayList<>();
@@ -41,6 +43,7 @@ public class RoomController {
         return ApiResult.success(rooms);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @GetMapping("/{id}")
     public ApiResult<RoomDTO> read(@PathVariable Long id) {
         RoomDTO roomDto = new RoomDTO();
@@ -62,6 +65,7 @@ public class RoomController {
 
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public ApiResult<Room> create(@RequestBody RoomDTO roomDto) {
         List<Room> allRooms = roomRepository.findAll();
@@ -87,6 +91,7 @@ public class RoomController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("delete/{id}")
     public ApiResult<Room> delete(@PathVariable Integer id) {
         Optional<Room> byId = roomRepository.findById(id.longValue());
@@ -98,6 +103,7 @@ public class RoomController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/{id}")
     public ApiResult<Room> update(@PathVariable Integer id ,
             @RequestBody RoomDTO roomDto) {

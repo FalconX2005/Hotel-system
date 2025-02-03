@@ -1,5 +1,6 @@
 package uz.pdp.hotelsystem.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.BookingRoom;
 import uz.pdp.hotelsystem.entity.Guest;
@@ -29,6 +30,7 @@ public class BookingController {
     }
 
 
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @GetMapping
     public ApiResult<List<BookingRoomDTO>> readBookingRooms(){
         List<BookingRoom> all = bookingRepository.findAll();
@@ -49,6 +51,7 @@ public class BookingController {
         }
         return ApiResult.error("Booking rooms not found");
     }
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @PostMapping
     public ApiResult<BookingRoomDTO> createBookingRoom(@RequestBody BookingRoomDTO bookingRoomDTO){
         BookingRoom bookingRoom = new BookingRoom();

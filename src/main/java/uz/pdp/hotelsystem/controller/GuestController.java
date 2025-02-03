@@ -1,5 +1,6 @@
 package uz.pdp.hotelsystem.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Guest;
 import uz.pdp.hotelsystem.payload.GuestDTO;
@@ -19,6 +20,7 @@ public class GuestController {
         this.guestRepository = guestRepository;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @GetMapping
     public ApiResult<List<GuestDTO>> readAllGuests() {
         List<Guest> allGuests = guestRepository.findAll();
@@ -37,6 +39,7 @@ public class GuestController {
         return ApiResult.success(guestDTOList);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @GetMapping("/{id}")
     public ApiResult<GuestDTO> readGuest(@PathVariable Integer id) {
         GuestDTO guestDTO = new GuestDTO();
@@ -51,6 +54,7 @@ public class GuestController {
         guestDTO.setPhoneNumber(guest.getPhoneNumber());
         return ApiResult.success(guestDTO);
     }
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @PostMapping
     public ApiResult<GuestDTO> createGuest(@RequestBody GuestDTO guestDTO) {
         Guest guest = new Guest();
@@ -63,6 +67,7 @@ public class GuestController {
         guestRepository.save(guest);
         return ApiResult.success(guestDTO);
     }
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @DeleteMapping("/{id}")
     public ApiResult<GuestDTO> deleteGuest(@PathVariable Integer id
                                            ) {
@@ -78,6 +83,7 @@ public class GuestController {
         }
         return ApiResult.error("Guest not found");
     }
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @PutMapping("/{id}")
     public ApiResult<GuestDTO> updateGuest(@PathVariable Integer id
             ,@RequestBody GuestDTO guestDTO) {
