@@ -9,6 +9,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 
 @EnableWebSecurity
@@ -29,20 +33,28 @@ public class SecurityConfig {
 
         http.userDetailsService(userDetailsService);
 
-        http.authorizeHttpRequests(conf -> conf
+        http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS ni yoqish
+                .authorizeHttpRequests(conf -> conf
 
 
-                        .requestMatchers(
-                                "/auth/login",
+                                .requestMatchers(
+                                        "/auth/login",
 //                        "auth/sign-up",
-                                "/**.html"
+                                        "/**.html"
 //                        "/open",
 //                        "/**"
-                        )
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated()
-        );
+                                )
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated()
+                );
+//        http.formLogin(conf -> conf
+//                .loginPage("/auth/login")
+//                .usernameParameter("username")
+//                .passwordParameter("password")
+//                .loginProcessingUrl("/auth/login")
+//        );
 
 
         return http.build();
@@ -75,5 +87,20 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("*")); // Hamma domenga ruxsat
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return source;
+    }
+
 
 }

@@ -12,7 +12,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/hotel")
-public class HotelController {
+public class
+HotelController {
     private final HotelRepository hotelRepository;
 
     public HotelController(HotelRepository hotelRepository) {

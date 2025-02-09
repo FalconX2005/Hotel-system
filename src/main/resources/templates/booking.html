@@ -101,7 +101,7 @@
 
 <section class="container">
     <h2>Booking Form</h2>
-    <form action="http://localhost:8080/booking" method="POST">
+    <form id="bookingForm">
         <label for="name">Full Name:</label>
         <input type="text" id="name" name="name" required>
 
@@ -123,10 +123,42 @@
 
         <button type="submit">Submit</button>
     </form>
+    <p id="message"></p>
 </section>
 
 <footer>
     <p>&copy; 2025 Hotel System. All rights reserved.</p>
 </footer>
+
+<script>
+    document.getElementById('bookingForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const checkin = document.getElementById('checkin').value;
+        const checkout = document.getElementById('checkout').value;
+        const room = document.getElementById('room').value;
+
+        const response = await fetch('http://localhost:8080/booking', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, checkin, checkout, room })
+        });
+
+        const result = await response.json();
+        const messageElement = document.getElementById('message');
+
+        if (response.ok) {
+            messageElement.style.color = 'green';
+            messageElement.textContent = 'Booking successful!';
+        } else {
+            messageElement.style.color = 'red';
+            messageElement.textContent = result.message || 'Booking failed. Please try again.';
+        }
+    });
+</script>
 </body>
 </html>

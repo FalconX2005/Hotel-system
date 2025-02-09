@@ -34,12 +34,10 @@ public class AuthController {
                               HttpServletRequest request) {
         Optional<User> userByUsername = userRepository.getUserByUsername(loginDTO.getUsername());
         if(!userByUsername.isPresent()){
-//            throw new RuntimeException("User not found");
             return ApiResult.error("User not found");
         }
         User user = userByUsername.get();
         if(!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())){
-//            throw new RuntimeException("Wrong password");
             return ApiResult.error("Wrong password");
         }
         SecurityContext securityContext = SecurityContextHolder.getContext();
