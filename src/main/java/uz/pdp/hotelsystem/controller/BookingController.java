@@ -9,6 +9,7 @@ import uz.pdp.hotelsystem.repository.BookingRepository;
 import uz.pdp.hotelsystem.repository.GuestRepository;
 import uz.pdp.hotelsystem.repository.RoomRepository;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +30,7 @@ public class BookingController {
 
 
     @GetMapping
-    public List<BookingRoomDTO> readBookingRooms(){
+    public ApiResult<List<BookingRoomDTO>> readBookingRooms(){
         List<BookingRoom> all = bookingRepository.findAll();
         List<BookingRoomDTO> bookingDto = new ArrayList<>();
         for (BookingRoom bookingRoom : all) {
@@ -42,17 +43,17 @@ public class BookingController {
                 bookingRoomDTO.setCheck_in_date(bookingRoom.getCheck_in_date());
                 bookingRoomDTO.setCheck_out_date(bookingRoom.getCheck_out_date());
                 bookingDto.add(bookingRoomDTO);
-                return bookingDto;
+                return ApiResult.success(bookingDto);
             }
 
         }
-        throw new RuntimeException("booking room doesn't exist");
+        return ApiResult.error("Booking rooms not found");
     }
     @PostMapping
-    public BookingRoomDTO createBookingRoom(@RequestBody BookingRoomDTO bookingRoomDTO){
+    public ApiResult<BookingRoomDTO> createBookingRoom(@RequestBody BookingRoomDTO bookingRoomDTO){
         BookingRoom bookingRoom = new BookingRoom();
         if (Objects.isNull(bookingRoomDTO)){
-            throw new RuntimeException("booking is null");
+            return ApiResult.error("Booking room DTO is null");
         }
         Guest guest = guestRepository.findById(Long.valueOf(bookingRoomDTO.getGuestId())).get();
         Room room = roomRepository.findById(Long.valueOf(bookingRoomDTO.getRoomId())).get();
@@ -64,7 +65,7 @@ public class BookingController {
         bookingRoom.setCheck_out_date(bookingRoomDTO.getCheck_out_date());
         bookingRoom.setStatus(bookingRoomDTO.getStatus());
 
-        return bookingRoomDTO;
+        return ApiResult.success(bookingRoomDTO);
     }
 
 }

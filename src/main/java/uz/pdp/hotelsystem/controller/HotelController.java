@@ -12,7 +12,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/hotel")
 public class HotelController {
-private final HotelRepository hotelRepository;
+    private final HotelRepository hotelRepository;
 
     public HotelController(HotelRepository hotelRepository) {
         this.hotelRepository = hotelRepository;
@@ -20,19 +20,19 @@ private final HotelRepository hotelRepository;
 
     @GetMapping
     public List<Hotel> read() {
-                return hotelRepository.findAll();
+        return hotelRepository.findAll();
     }
 
     @PutMapping
-    public HotelDTO update(@RequestBody HotelDTO hotelDTO) {
+    public ApiResult<HotelDTO> update(@RequestBody HotelDTO hotelDTO) {
         Hotel hotel = new Hotel();
         Optional<Hotel> byId = hotelRepository.findById(Long.valueOf(hotelDTO.getId()));
         if (byId.isPresent()) {
             hotel.setName(hotelDTO.getName());
-            return hotelDTO;
+            return ApiResult.success(hotelDTO);
         }
         else {
-            throw new RuntimeException("hotel not found");
+            return ApiResult.error("Hotel not found");
         }
     }
 

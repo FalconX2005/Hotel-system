@@ -22,7 +22,9 @@ public class Employee {
     private Integer age;
     private Timestamp workTime;
 
-    @Enumerated(EnumType.STRING)
-    private RoleEnum role;
+    @ManyToOne
+    private User user;
+
+
 
 }
