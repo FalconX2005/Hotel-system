@@ -1,5 +1,6 @@
 package uz.pdp.hotelsystem.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Hotel;
 import uz.pdp.hotelsystem.payload.HotelDTO;
@@ -11,28 +12,30 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/hotel")
-public class HotelController {
-private final HotelRepository hotelRepository;
+public class
+HotelController {
+    private final HotelRepository hotelRepository;
 
     public HotelController(HotelRepository hotelRepository) {
         this.hotelRepository = hotelRepository;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<Hotel> read() {
-                return hotelRepository.findAll();
+        return hotelRepository.findAll();
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
-    public HotelDTO update(@RequestBody HotelDTO hotelDTO) {
+    public ApiResult<HotelDTO> update(@RequestBody HotelDTO hotelDTO) {
         Hotel hotel = new Hotel();
         Optional<Hotel> byId = hotelRepository.findById(Long.valueOf(hotelDTO.getId()));
         if (byId.isPresent()) {
             hotel.setName(hotelDTO.getName());
-            return hotelDTO;
+            return ApiResult.success(hotelDTO);
         }
         else {
-            throw new RuntimeException("hotel not found");
+            return ApiResult.error("Hotel not found");
         }
     }
 

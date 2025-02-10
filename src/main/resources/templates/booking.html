@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel System - Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: #4CAF50;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #333;
+        }
+
+        nav a {
+            color: white;
+            padding: 1rem;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background: #4CAF50;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        section {
+            padding: 2rem 0;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        form input, form select, form button {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        form button {
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background: #45a049;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Book Your Stay</h1>
+</header>
+<nav>
+    <a href="index.html">Home</a>
+    <a href="rooms.html">Rooms</a>
+    <a href="booking.html">Booking</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="login.html">Login</a>
+</nav>
+
+<section class="container">
+    <h2>Booking Form</h2>
+    <form id="bookingForm">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="checkin">Check-in Date:</label>
+        <input type="date" id="checkin" name="checkin" required>
+
+        <label for="checkout">Check-out Date:</label>
+        <input type="date" id="checkout" name="checkout" required>
+
+        <label for="room">Room Type:</label>
+        <select id="room" name="room">
+            <option value="single">Single Room</option>
+            <option value="double">Double Room</option>
+            <option value="family">Family Room</option>
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+    <p id="message"></p>
+</section>
+
+<footer>
+    <p>&copy; 2025 Hotel System. All rights reserved.</p>
+</footer>
+
+<script>
+    document.getElementById('bookingForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const checkin = document.getElementById('checkin').value;
+        const checkout = document.getElementById('checkout').value;
+        const room = document.getElementById('room').value;
+
+        const response = await fetch('http://localhost:8080/booking', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, checkin, checkout, room })
+        });
+
+        const result = await response.json();
+        const messageElement = document.getElementById('message');
+
+        if (response.ok) {
+            messageElement.style.color = 'green';
+            messageElement.textContent = 'Booking successful!';
+        } else {
+            messageElement.style.color = 'red';
+            messageElement.textContent = result.message || 'Booking failed. Please try again.';
+        }
+    });
+</script>
+</body>
+</html>

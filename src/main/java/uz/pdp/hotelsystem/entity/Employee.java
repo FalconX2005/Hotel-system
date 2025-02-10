@@ -2,11 +2,11 @@ package uz.pdp.hotelsystem.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import uz.pdp.hotelsystem.enums.RoleEnum;
+
 
 import java.sql.Timestamp;
 
-@Entity
+@Entity(name = "hotel_employee")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,9 +20,12 @@ public class Employee {
     private String firstName;
     private String lastName;
     private Integer age;
+
     private Timestamp workTime;
 
-    @Enumerated(EnumType.STRING)
-    private RoleEnum role;
+    @ManyToOne
+    private User user;
+
+
 
 }

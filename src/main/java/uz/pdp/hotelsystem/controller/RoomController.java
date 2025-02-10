@@ -1,6 +1,6 @@
 package uz.pdp.hotelsystem.controller;
 
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Hotel;
 import uz.pdp.hotelsystem.entity.Room;
@@ -23,8 +23,9 @@ public class RoomController {
         this.roomRepository = roomRepository;
         this.hotelRepository = hotelRepository;
     }
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @GetMapping
-    public List<RoomDTO> readAll() {
+    public ApiResult<List<RoomDTO>> readAll() {
         List<RoomDTO> rooms = new ArrayList<>();
         List<Room> all = roomRepository.findAll();
 
@@ -39,11 +40,12 @@ public class RoomController {
                 rooms.add(roomDTO);
             }
         }
-        return rooms;
+        return ApiResult.success(rooms);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @GetMapping("/{id}")
-    public RoomDTO read(@PathVariable Long id) {
+    public ApiResult<RoomDTO> read(@PathVariable Long id) {
         RoomDTO roomDto = new RoomDTO();
         Optional<Room> byId = roomRepository.findById(id.longValue());
         Room room = byId.get();
@@ -54,22 +56,23 @@ public class RoomController {
             roomDto.setType(room.getType());
             roomDto.setName(room.getName());
             roomDto.setId(room.getId());
-            return roomDto;
+            return ApiResult.success(roomDto);
         }
         else {
-            throw new RuntimeException("Room with id " + id + " is not available");
+            return ApiResult.error("Room not found");
         }
-        }
+    }
 
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
-    public Room create(@RequestBody RoomDTO roomDto) {
+    public ApiResult<Room> create(@RequestBody RoomDTO roomDto) {
         List<Room> allRooms = roomRepository.findAll();
         for (Room allRoom : allRooms) {
 
             if (roomDto.getId().equals(allRoom.getId())) {
-                throw new RuntimeException("Room with id " + allRoom.getId() + " already exists");
+                return ApiResult.error("Room already exists");
             }
         }
 
@@ -84,23 +87,28 @@ public class RoomController {
         room.setHotel(hotel.get());
 
 
-        return roomRepository.save(room);
+        return ApiResult.success(room);
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("delete/{id}")
-    public Room delete(@PathVariable Integer id) {
+    public ApiResult<Room> delete(@PathVariable Integer id) {
         Optional<Room> byId = roomRepository.findById(id.longValue());
         if (byId.isPresent()) {
             roomRepository.delete(byId.get());
         }
-        return byId.get();
+        Room roomID = byId.get();
+        return ApiResult.success(roomID);
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/{id}")
-    public Room update(@RequestBody RoomDTO roomDto) {
-        Optional<Room> byId = roomRepository.findById(Long.valueOf(roomDto.getId()));
+    public ApiResult<Room> update(@PathVariable Integer id ,
+            @RequestBody RoomDTO roomDto) {
+        Optional<Room> byId = roomRepository.findById(id.longValue());
+
 
         if (byId.isPresent()) {
             Room room = byId.get();
@@ -111,14 +119,15 @@ public class RoomController {
                 room.setIs_available(roomDto.getIs_available());
                 Hotel hotel = hotelRepository.findById(roomDto.getHotelId().longValue()).get();
                 room.setHotel(hotel);
-                return roomRepository.save(room);
+                Room save = roomRepository.save(room);
+                return ApiResult.success(save);
             }
             else {
-                throw new RuntimeException("Room with id " + roomDto.getId() + " is not available");
+                return ApiResult.error("Room with id " + roomDto.getId() + " is not available");
             }
         }
         else {
-            throw new RuntimeException("Room with id " + roomDto.getId() + "  room not found");
+            return ApiResult.error("Room with id " + roomDto.getId() + "  room not found");
         }
     }
 }
