@@ -33,21 +33,12 @@ public class SecurityConfig {
         http.userDetailsService(userDetailsService);
 
         http.authorizeHttpRequests(conf -> conf
-
-                .requestMatchers(HttpMethod.POST,"/shdbchs")
-                .permitAll()
-
                 .requestMatchers(
                         "/auth/login",
-//                        "auth/sign-up",
-//                        "/**.html",
-//                        "/open",
-                        "/**"
-                )
-                .permitAll()
-
-//                .requestMatchers(HttpMethod.GET, "/product")
-//                .hasAnyRole(RoleEnum.MANAGER.name(), RoleEnum.USER.name())
+                        "/**",
+                        "/auth/forgot-password",
+                        "/auth/reset-password/**"
+                ).permitAll()
 
                 .anyRequest()
                 .authenticated()
@@ -62,29 +53,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-//
-//        String encodedPassword = passwordEncoder.encode("123");
-//
-//        System.out.println("password: " + encodedPassword);
-//
-//        UserDetails user = User
-//                .withUsername("john")
-//                .password(encodedPassword)
-//                .roles("USER")
-//                .build();
-//
-//        UserDetails admin = User
-//                .withUsername("admin")
-//                .password(encodedPassword)
-//                .roles("ADMIN")
-//                .build();
-//
-//        UserDetailsService userDetailsService = new InMemoryUserDetailsManager(user, admin);
-//        return userDetailsService;
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

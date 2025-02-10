@@ -10,5 +10,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> getUserByUsername(String username);
 
     List<User> findByUsername(String username);
+
+    Optional<User> findByEmail(String email);
+
+    User findByResetToken(String token); // Token orqali foydalanuvchini topish
 }
 
