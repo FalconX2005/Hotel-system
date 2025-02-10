@@ -5,9 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -39,11 +42,12 @@ public class SecurityConfig {
 
 
                                 .requestMatchers(
+                                        "/api/**",
                                         "/auth/login",
 //                        "auth/sign-up",
-                                        "/**.html"
+                                        "/**.html",
 //                        "/open",
-//                        "/**"
+                        "/**"
                                 )
                                 .permitAll()
                                 .anyRequest()
@@ -59,7 +63,15 @@ public class SecurityConfig {
 
         return http.build();
     }
-
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails admin = User.withDefaultPasswordEncoder()
+                .username("admin")
+                .password("admin123")
+                .roles("ADMIN")
+                .build();
+        return new InMemoryUserDetailsManager(admin);
+    }
 //    @Bean
 //    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
 //

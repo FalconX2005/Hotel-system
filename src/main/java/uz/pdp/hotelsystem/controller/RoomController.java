@@ -23,9 +23,29 @@ public class RoomController {
         this.roomRepository = roomRepository;
         this.hotelRepository = hotelRepository;
     }
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ApiResult<List<RoomDTO>> readAll() {
+        List<RoomDTO> rooms = new ArrayList<>();
+        List<Room> all = roomRepository.findAll();
+
+        for (Room room : all) {
+            if (room.getIs_available()){
+                RoomDTO roomDTO = new RoomDTO();
+                roomDTO.setHotelId(room.getHotel().getId());
+                roomDTO.setIs_available(room.getIs_available());
+                roomDTO.setPrice(room.getPrice());
+                roomDTO.setType(room.getType());
+                roomDTO.setName(room.getName());
+                rooms.add(roomDTO);
+            }
+        }
+        return ApiResult.success(rooms);
+    }
+
+
+    @GetMapping("/readAll")
+    public ApiResult<List<RoomDTO>> readAll1() {
         List<RoomDTO> rooms = new ArrayList<>();
         List<Room> all = roomRepository.findAll();
 

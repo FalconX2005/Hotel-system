@@ -29,6 +29,10 @@ public class AuthController {
 //    @GetMapping("/login")
 //    public
 
+    @GetMapping("/login")
+    public void login(){
+        return;
+    }
     @PostMapping("/login")
     public ApiResult<?> login(@RequestBody LoginDTO loginDTO,
                               HttpServletRequest request) {
