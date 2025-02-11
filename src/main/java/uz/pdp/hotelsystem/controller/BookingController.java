@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.BookingRoom;
 import uz.pdp.hotelsystem.entity.Guest;
 import uz.pdp.hotelsystem.entity.Room;
+import uz.pdp.hotelsystem.exception.RestException;
 import uz.pdp.hotelsystem.payload.BookingRoomDTO;
 import uz.pdp.hotelsystem.repository.BookingRepository;
 import uz.pdp.hotelsystem.repository.GuestRepository;
@@ -53,7 +54,7 @@ public class BookingController {
     public ApiResult<BookingRoomDTO> createBookingRoom(@RequestBody BookingRoomDTO bookingRoomDTO){
         BookingRoom bookingRoom = new BookingRoom();
         if (Objects.isNull(bookingRoomDTO)){
-            return ApiResult.error("Booking room DTO is null");
+            throw RestException.error("Booking room DTO is null");
         }
         Guest guest = guestRepository.findById(Long.valueOf(bookingRoomDTO.getGuestId())).get();
         Room room = roomRepository.findById(Long.valueOf(bookingRoomDTO.getRoomId())).get();

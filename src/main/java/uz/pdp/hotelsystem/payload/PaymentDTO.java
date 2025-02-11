@@ -14,7 +14,7 @@ public class PaymentDTO {
 
     private Integer id;
 
-    private Integer bookingId;
+    private Integer bookingRoomId;
 
     private Long amount;
 

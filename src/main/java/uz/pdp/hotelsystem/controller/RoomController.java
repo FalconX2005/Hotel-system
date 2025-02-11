@@ -26,7 +26,6 @@ public class RoomController {
     public ApiResult<List<RoomDTO>> readAll() {
         List<RoomDTO> rooms = new ArrayList<>();
         List<Room> all = roomRepository.findAll();
-
         for (Room room : all) {
             if (room.getIs_available()){
                 RoomDTO roomDTO = new RoomDTO();

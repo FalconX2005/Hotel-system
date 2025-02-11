@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import uz.pdp.hotelsystem.entity.Employee;
 import uz.pdp.hotelsystem.entity.User;
+import uz.pdp.hotelsystem.exception.RestException;
 import uz.pdp.hotelsystem.payload.EmployeeDTO;
 import uz.pdp.hotelsystem.repository.EmployeeRepository;
 import uz.pdp.hotelsystem.repository.UserRepository;
@@ -69,28 +70,25 @@ public class EmployeeController {
             employee.setUser(user);
             employeeRepository.save(employee);
         }
-
-
         return employeeDTO;
 
     }
 
     @PutMapping("/{id}")
-    public EmployeeDTO updateEmployee(@PathVariable Integer id ,
-                                      @RequestBody EmployeeDTO employeeDTO) {
-        Optional<Employee> employee = employeeRepository.findById(id.longValue());
-        if (employee.isPresent()) {
-            Employee employee1 = employee.get();
-            employee1.setFirstName(employeeDTO.getFirstName());
-            employee1.setLastName(employeeDTO.getLastName());
-            employee1.setAge(employeeDTO.getAge());
-            employee1.setWorkTime(employeeDTO.getWorkTime());
-            employeeRepository.save(employee1);
-            return employeeDTO;
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+    public EmployeeDTO updateEmployee(@PathVariable Integer id, @RequestBody EmployeeDTO employeeDTO) {
+        Employee employee = employeeRepository.findById(id.longValue())
+                .orElseThrow(() -> RestException.notFound("Employee not found", id));
+
+        employee.setFirstName(employeeDTO.getFirstName());
+        employee.setLastName(employeeDTO.getLastName());
+        employee.setAge(employeeDTO.getAge());
+        employee.setWorkTime(employeeDTO.getWorkTime());
+
+        employeeRepository.save(employee);
+
+        return employeeDTO;
     }
+
 
     @DeleteMapping("/{id}")
     public void deleteEmployee(@PathVariable Integer id) {

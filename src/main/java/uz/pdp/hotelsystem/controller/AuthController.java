@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.User;
+import uz.pdp.hotelsystem.exception.RestException;
 import uz.pdp.hotelsystem.payload.LoginDTO;
 import uz.pdp.hotelsystem.payload.SignUpDTO;
 import uz.pdp.hotelsystem.repository.UserRepository;
@@ -30,11 +31,11 @@ public class AuthController {
     public String login(@RequestBody LoginDTO loginDTO,HttpServletRequest request) {
         Optional<User> userByUsername = userRepository.getUserByUsername(loginDTO.getUsername());
         if(!userByUsername.isPresent()){
-            throw new RuntimeException("User not found");
+            throw RestException.error("User not found");
         }
         User user = userByUsername.get();
         if(!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())){
-            throw new RuntimeException("Wrong password");
+            throw RestException.error("Wrong password");
         }
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = new UsernamePasswordAuthenticationToken(
@@ -51,8 +52,6 @@ public class AuthController {
         session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
         return "success";
-
-
     }
 
     @PostMapping("/sign-up")
@@ -60,7 +59,7 @@ public class AuthController {
 
                 Optional<User> optionalUser = userRepository.getUserByUsername(singUpDTO.getUsername());
                 if (optionalUser.isPresent()) {
-                    throw new RuntimeException("Username is already exist");
+                    throw RestException.error("Username already in use");
                 }
              String encodedPassword = passwordEncoder.encode(singUpDTO.getPassword());
 
