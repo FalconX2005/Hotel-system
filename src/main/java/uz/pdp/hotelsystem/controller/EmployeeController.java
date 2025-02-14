@@ -1,7 +1,9 @@
 package uz.pdp.hotelsystem.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import uz.pdp.hotelsystem.entity.Employee;
@@ -21,12 +23,14 @@ import java.util.Optional;
 public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     private final UserRepository userRepository;
 
-    public EmployeeController(EmployeeRepository employeeRepository, UserRepository userRepository) {
+    public EmployeeController(EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.employeeRepository = employeeRepository;
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
 
@@ -54,7 +58,7 @@ public class EmployeeController {
         }
     }
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
+    @PostMapping("/create")
     public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
         if (Objects.isNull(employeeDTO)) {
@@ -67,10 +71,14 @@ public class EmployeeController {
         Integer userId = employeeDTO.getUserId();
         Optional<User> byId = userRepository.findById(userId);
         if (byId.isPresent()) {
-            User user = byId.get();
-            employee.setUser(user);
-            employeeRepository.save(employee);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+        User user = new User();
+        user.setPassword(passwordEncoder.encode(employeeDTO.getUser().getPassword()));
+        user.setUsername(employeeDTO.getUser().getUsername());
+        user.setRole(employeeDTO.getUser().getRole());
+        employee.setUser(user);
+        employeeRepository.save(employee);
 
 
         return employeeDTO;

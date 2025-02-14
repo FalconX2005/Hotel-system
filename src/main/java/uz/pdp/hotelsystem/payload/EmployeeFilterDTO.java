@@ -16,5 +16,5 @@ public class EmployeeFilterDTO {
     private Integer age;
 
     private Timestamp workTime;
-    private User user;
+
 }

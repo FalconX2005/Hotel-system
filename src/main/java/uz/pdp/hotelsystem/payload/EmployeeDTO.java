@@ -19,5 +19,6 @@ public class EmployeeDTO {
     private Integer age;
     private Timestamp workTime;
     private Integer userId;
+    private User user;
 
 }

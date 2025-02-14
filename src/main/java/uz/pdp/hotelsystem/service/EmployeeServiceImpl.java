@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uz.pdp.hotelsystem.entity.Employee;
-import uz.pdp.hotelsystem.payload.EmployeeDTO;
 import uz.pdp.hotelsystem.payload.EmployeeFilterDTO;
 import uz.pdp.hotelsystem.repository.EmployeeService;
 
@@ -22,7 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EntityManager entityManager;
     @Override
-    public List<EmployeeDTO> filter(EmployeeFilterDTO filter) {
+    public List<Employee> filter(EmployeeFilterDTO filter) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
@@ -65,6 +64,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
         List<Employee> employees = entityManager.createQuery(criteriaQuery).getResultList();
 
-        return List.of();
+        return employees;
     }
 }

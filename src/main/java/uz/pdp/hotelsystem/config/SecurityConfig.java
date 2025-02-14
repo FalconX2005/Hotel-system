@@ -53,46 +53,18 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated()
                 );
-//        http.formLogin(conf -> conf
-//                .loginPage("/auth/login")
-//                .usernameParameter("username")
-//                .passwordParameter("password")
-//                .loginProcessingUrl("/auth/login")
-//        );
 
 
         return http.build();
     }
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails admin = User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("admin123")
-                .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(admin);
-    }
 //    @Bean
-//    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-//
-//        String encodedPassword = passwordEncoder.encode("123");
-//
-//        System.out.println("password: " + encodedPassword);
-//
-//        UserDetails user = User
-//                .withUsername("john")
-//                .password(encodedPassword)
-//                .roles("USER")
-//                .build();
-//
-//        UserDetails admin = User
-//                .withUsername("admin")
-//                .password(encodedPassword)
+//    public UserDetailsService userDetailsService() {
+//        UserDetails admin = User.withDefaultPasswordEncoder()
+//                .username("admin")
+//                .password("admin123")
 //                .roles("ADMIN")
 //                .build();
-//
-//        UserDetailsService userDetailsService = new InMemoryUserDetailsManager(user, admin);
-//        return userDetailsService;
+//        return new InMemoryUserDetailsManager(admin);
 //    }
 
     @Bean
