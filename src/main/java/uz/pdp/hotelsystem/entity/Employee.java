@@ -6,7 +6,7 @@ import uz.pdp.hotelsystem.enums.RoleEnum;
 
 import java.sql.Timestamp;
 
-@Entity
+@Entity()
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
