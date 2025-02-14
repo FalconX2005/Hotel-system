@@ -15,6 +15,7 @@ import uz.pdp.hotelsystem.repository.RoomRepository;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,6 +40,21 @@ public class PaymentController {
         if(!bookingRoom.getRoom().getIs_available()){
             throw RestException.error("Booking room is not available");
         }
+
+        long diffTime = bookingRoom.getCheck_out_date().getTime() - bookingRoom.getCheck_in_date().getTime();
+        long days = TimeUnit.MILLISECONDS.toDays(diffTime);
+
+
+        if(days <= 0){
+            throw RestException.error("Check-out date must be after check-in date");
+        }
+
+        double price = days * bookingRoom.getRoom().getPrice();
+
+        if(paymentDTO.getAmount() < price){
+            throw RestException.error("Not enough money");
+        }
+
 
         Payment payment = new Payment();
         payment.setBookingRoom(bookingRoom);

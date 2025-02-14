@@ -18,7 +18,6 @@ public class BookingRoomDTO {
 
     private Integer guestId;
 
-
     private Integer roomId;
 
     private Timestamp check_in_date;
