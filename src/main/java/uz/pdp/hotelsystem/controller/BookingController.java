@@ -1,5 +1,6 @@
 package uz.pdp.hotelsystem.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.BookingRoom;
@@ -17,17 +18,13 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/booking")
+@RequiredArgsConstructor
 public class BookingController {
 
     private final BookingRepository bookingRepository;
     private final RoomRepository roomRepository;
     private final GuestRepository guestRepository;
 
-    public BookingController(BookingRepository bookingRepository, RoomRepository roomRepository, GuestRepository guestRepository) {
-        this.bookingRepository = bookingRepository;
-        this.roomRepository = roomRepository;
-        this.guestRepository = guestRepository;
-    }
 
 
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
@@ -51,7 +48,7 @@ public class BookingController {
         }
         return ApiResult.error("Booking rooms not found");
     }
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @PostMapping
     public ApiResult<BookingRoomDTO> createBookingRoom(@RequestBody BookingRoomDTO bookingRoomDTO){
         BookingRoom bookingRoom = new BookingRoom();
@@ -62,6 +59,7 @@ public class BookingController {
         Room room = roomRepository.findById(Long.valueOf(bookingRoomDTO.getRoomId())).get();
         if(room.getIs_available()) {
             bookingRoom.setRoom(room);
+            room.setIs_available(false);
         }
         bookingRoom.setGuest(guest);
         bookingRoom.setCheck_in_date(bookingRoomDTO.getCheck_in_date());

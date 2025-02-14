@@ -4,21 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.pdp.hotelsystem.entity.User;
-import uz.pdp.hotelsystem.enums.RoleEnum;
 
 import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class EmployeeDTO {
-
-    private Integer id;
+public class EmployeeFilterDTO {
     private String firstName;
     private String lastName;
     private Integer age;
+
     private Timestamp workTime;
-    private Integer userId;
-    private User user;
 
 }

@@ -1,5 +1,6 @@
 package uz.pdp.hotelsystem.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Guest;
@@ -13,12 +14,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/guest")
+@RequiredArgsConstructor
 public class GuestController {
     private final GuestRepository guestRepository;
 
-    public GuestController(GuestRepository guestRepository) {
-        this.guestRepository = guestRepository;
-    }
 
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @GetMapping

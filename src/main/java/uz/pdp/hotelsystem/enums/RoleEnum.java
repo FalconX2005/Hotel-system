@@ -1,10 +1,13 @@
 package uz.pdp.hotelsystem.enums;
 
-public enum RoleEnum {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum RoleEnum  {
 
     USER,
     MANAGER,
     ADMIN,
     REGISTER;
+
 
 }

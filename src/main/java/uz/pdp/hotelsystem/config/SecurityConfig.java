@@ -5,9 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -39,48 +42,29 @@ public class SecurityConfig {
 
 
                                 .requestMatchers(
+                                        "/api/**",
                                         "/auth/login",
 //                        "auth/sign-up",
-                                        "/**.html"
+                                        "/**.html",
 //                        "/open",
-//                        "/**"
+                        "/**"
                                 )
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
                 );
-//        http.formLogin(conf -> conf
-//                .loginPage("/auth/login")
-//                .usernameParameter("username")
-//                .passwordParameter("password")
-//                .loginProcessingUrl("/auth/login")
-//        );
 
 
         return http.build();
     }
-
 //    @Bean
-//    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-//
-//        String encodedPassword = passwordEncoder.encode("123");
-//
-//        System.out.println("password: " + encodedPassword);
-//
-//        UserDetails user = User
-//                .withUsername("john")
-//                .password(encodedPassword)
-//                .roles("USER")
-//                .build();
-//
-//        UserDetails admin = User
-//                .withUsername("admin")
-//                .password(encodedPassword)
+//    public UserDetailsService userDetailsService() {
+//        UserDetails admin = User.withDefaultPasswordEncoder()
+//                .username("admin")
+//                .password("admin123")
 //                .roles("ADMIN")
 //                .build();
-//
-//        UserDetailsService userDetailsService = new InMemoryUserDetailsManager(user, admin);
-//        return userDetailsService;
+//        return new InMemoryUserDetailsManager(admin);
 //    }
 
     @Bean

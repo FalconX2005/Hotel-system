@@ -1,5 +1,6 @@
 package uz.pdp.hotelsystem.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Hotel;
@@ -12,13 +13,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/hotel")
-public class
-HotelController {
+@RequiredArgsConstructor
+public class HotelController {
     private final HotelRepository hotelRepository;
 
-    public HotelController(HotelRepository hotelRepository) {
-        this.hotelRepository = hotelRepository;
-    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping

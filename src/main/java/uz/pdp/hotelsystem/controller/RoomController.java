@@ -1,5 +1,6 @@
 package uz.pdp.hotelsystem.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Hotel;
@@ -15,15 +16,13 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/room")
+@RequiredArgsConstructor
 public class RoomController {
     private   final RoomRepository roomRepository;
     private final HotelRepository hotelRepository;
 
-    public RoomController(RoomRepository roomRepository, HotelRepository hotelRepository) {
-        this.roomRepository = roomRepository;
-        this.hotelRepository = hotelRepository;
-    }
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ApiResult<List<RoomDTO>> readAll() {
         List<RoomDTO> rooms = new ArrayList<>();
@@ -42,6 +41,9 @@ public class RoomController {
         }
         return ApiResult.success(rooms);
     }
+
+
+
 
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @GetMapping("/{id}")
@@ -68,13 +70,13 @@ public class RoomController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public ApiResult<Room> create(@RequestBody RoomDTO roomDto) {
-        List<Room> allRooms = roomRepository.findAll();
-        for (Room allRoom : allRooms) {
-
-            if (roomDto.getId().equals(allRoom.getId())) {
-                return ApiResult.error("Room already exists");
-            }
-        }
+//        List<Room> allRooms = roomRepository.findAll();
+//        for (Room allRoom : allRooms) {
+//
+////            if (roomDto.getId().equals(allRoom.getId())) {
+////                return ApiResult.error("Room already exists");
+////            }
+//        }
 
         Room room = new Room();
 
@@ -85,6 +87,7 @@ public class RoomController {
 
         Optional<Hotel> hotel = hotelRepository.findById(Long.valueOf(roomDto.getHotelId()));
         room.setHotel(hotel.get());
+        roomRepository.save(room);
 
 
         return ApiResult.success(room);
