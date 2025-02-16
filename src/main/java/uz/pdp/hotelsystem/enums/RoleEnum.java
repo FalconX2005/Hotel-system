@@ -2,9 +2,10 @@ package uz.pdp.hotelsystem.enums;
 
 public enum RoleEnum {
 
-    USER,
-    MANAGER,
-    ADMIN,
-    RECEPTION,
+    ROLE_USER,
+    ROLE_MANAGER,
+    ROLE_ADMIN,
+    ROLE_RECEPTION,
+
 
 }

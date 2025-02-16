@@ -18,6 +18,6 @@ public class SignUpDTO implements Serializable {
     private String username;
     private String password;
     private String email;
-    private RoleEnum role = RoleEnum.USER;
+    private RoleEnum role = RoleEnum.ROLE_USER;
 
 }

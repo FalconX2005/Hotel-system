@@ -34,7 +34,7 @@ public class User extends AbsLongEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_"+role.name());
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.name());
         return List.of();
     }
 
