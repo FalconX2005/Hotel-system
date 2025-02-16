@@ -1,10 +1,9 @@
 package uz.pdp.hotelsystem.enums;
 
 public enum RoomType {
-
-    SINGLE,
-    DOUBLE,
+    STANDARD,
     LUX,
     PREMIUM,
-    STANDARD,
+    SINGLE,
+    DOUBLE,
 }

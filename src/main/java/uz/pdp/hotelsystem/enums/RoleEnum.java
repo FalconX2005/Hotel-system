@@ -5,6 +5,6 @@ public enum RoleEnum {
     USER,
     MANAGER,
     ADMIN,
-    REGISTER;
+    RECEPTION,
 
 }

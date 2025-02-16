@@ -13,11 +13,10 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignUpDTO implements Serializable {
-
+public class UserDTO implements Serializable {
+    private Integer id;
     private String username;
     private String password;
     private String email;
-    private RoleEnum role = RoleEnum.USER;
-
+    private RoleEnum role;
 }

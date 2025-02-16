@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
+import uz.pdp.hotelsystem.entity.tempAbs.AbsLongEntity;
 
 @Entity
 @AllArgsConstructor
@@ -12,11 +13,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class Guest {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Guest extends AbsLongEntity {
 
     private String firstName;
 

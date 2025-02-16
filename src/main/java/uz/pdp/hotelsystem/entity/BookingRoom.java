@@ -2,6 +2,7 @@ package uz.pdp.hotelsystem.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import uz.pdp.hotelsystem.entity.tempAbs.AbsLongEntity;
 import uz.pdp.hotelsystem.enums.StatusBooking;
 
 
@@ -13,11 +14,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @ToString
-public class BookingRoom {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class BookingRoom extends AbsLongEntity {
 
     @ManyToOne
     private Guest guest;
