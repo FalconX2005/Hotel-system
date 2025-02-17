@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.BookingRoom;
 import uz.pdp.hotelsystem.entity.Guest;
 import uz.pdp.hotelsystem.entity.Room;
+import uz.pdp.hotelsystem.enums.StatusBooking;
+import uz.pdp.hotelsystem.exception.RestException;
 import uz.pdp.hotelsystem.payload.BookingRoomDTO;
 import uz.pdp.hotelsystem.repository.BookingRepository;
 import uz.pdp.hotelsystem.repository.GuestRepository;
@@ -25,6 +27,11 @@ public class BookingController {
     private final RoomRepository roomRepository;
     private final GuestRepository guestRepository;
 
+    public BookingController(BookingRepository bookingRepository, RoomRepository roomRepository, GuestRepository guestRepository) {
+        this.bookingRepository = bookingRepository;
+        this.roomRepository = roomRepository;
+        this.guestRepository = guestRepository;
+    }
 
 
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
@@ -48,23 +55,28 @@ public class BookingController {
         }
         return ApiResult.error("Booking rooms not found");
     }
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @PostMapping
     public ApiResult<BookingRoomDTO> createBookingRoom(@RequestBody BookingRoomDTO bookingRoomDTO){
         BookingRoom bookingRoom = new BookingRoom();
         if (Objects.isNull(bookingRoomDTO)){
             return ApiResult.error("Booking room DTO is null");
         }
-        Guest guest = guestRepository.findById(Long.valueOf(bookingRoomDTO.getGuestId())).get();
-        Room room = roomRepository.findById(Long.valueOf(bookingRoomDTO.getRoomId())).get();
-        if(room.getIs_available()) {
-            bookingRoom.setRoom(room);
-            room.setIs_available(false);
+        Guest guest = guestRepository.findById(Long.valueOf(bookingRoomDTO.
+                getGuestId())).
+                orElseThrow(() -> RestException.error("Guest not found"));
+        Room room = roomRepository.findById(Long.valueOf(bookingRoomDTO.
+                getRoomId())).
+                orElseThrow(() -> RestException.error("Room not found"));
+        if(!room.getIs_available()) {
+            throw RestException.error("Room is not available");
         }
+
+
         bookingRoom.setGuest(guest);
+        bookingRoom.setRoom(room);
         bookingRoom.setCheck_in_date(bookingRoomDTO.getCheck_in_date());
         bookingRoom.setCheck_out_date(bookingRoomDTO.getCheck_out_date());
-        bookingRoom.setStatus(bookingRoomDTO.getStatus());
+        bookingRoom.setStatus(StatusBooking.BOOKED);
 
         return ApiResult.success(bookingRoomDTO);
     }

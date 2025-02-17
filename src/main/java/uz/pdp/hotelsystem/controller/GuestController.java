@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Guest;
+import uz.pdp.hotelsystem.exception.RestException;
 import uz.pdp.hotelsystem.payload.GuestDTO;
 import uz.pdp.hotelsystem.repository.GuestRepository;
 
@@ -24,6 +25,10 @@ public class GuestController {
     public ApiResult<List<GuestDTO>> readAllGuests() {
         List<Guest> allGuests = guestRepository.findAll();
 
+        if (allGuests.isEmpty()) {
+            throw RestException.error("Guest not found");
+        }
+
         List<GuestDTO> guestDTOList = allGuests.stream()
                 .map(guest -> new GuestDTO(
                         guest.getId(),
@@ -33,7 +38,7 @@ public class GuestController {
                 ))
                 .toList();
         if(guestDTOList.isEmpty()) {
-            return ApiResult.error("Guest not found");
+            throw RestException.error("Guest not found");
         }
         return ApiResult.success(guestDTOList);
     }
@@ -44,7 +49,7 @@ public class GuestController {
         GuestDTO guestDTO = new GuestDTO();
         Optional<Guest> byId = guestRepository.findById(id.longValue());
         if (!byId.isPresent()) {
-            return ApiResult.error("Guest not found");
+            throw RestException.error("Guest not found");
         }
         Guest guest = byId.get();
         guestDTO.setId(guest.getId());
@@ -58,7 +63,7 @@ public class GuestController {
     public ApiResult<GuestDTO> createGuest(@RequestBody GuestDTO guestDTO) {
         Guest guest = new Guest();
         if (Objects.isNull(guestDTO)){
-            return ApiResult.error("GuestDTO is null");
+            throw RestException.error("GuestDTO is null");
         }
         guest.setFirstName(guestDTO.getFirstName());
         guest.setLastName(guestDTO.getLastName());
@@ -72,31 +77,28 @@ public class GuestController {
                                            ) {
         Guest guest = new Guest();
         if (Objects.isNull(id)) {
-
-            return ApiResult.error("Bad request ");
+            throw RestException.error("id is null");
         }
         Optional<Guest> byId = guestRepository.findById(id.longValue());
         if(byId.isPresent()) {
             guestRepository.delete(byId.get());
             return ApiResult.success("Guest deleted successfully");
         }
-        return ApiResult.error("Guest not found");
+        throw RestException.error("Guest not found");
     }
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @PutMapping("/{id}")
-    public ApiResult<GuestDTO> updateGuest(@PathVariable Integer id
-            ,@RequestBody GuestDTO guestDTO) {
+    public ApiResult<GuestDTO> updateGuest(@PathVariable Integer id, @RequestBody GuestDTO guestDTO) {
+        Guest guest = guestRepository.findById(id.longValue())
+                .orElseThrow(() -> RestException.notFound("Guest not found", id));
 
-        Optional<Guest> byId = guestRepository.findById(id.longValue());
-        if (byId.isPresent()) {
-            Guest guest = byId.get();
-            guest.setFirstName(guestDTO.getFirstName());
-            guest.setLastName(guestDTO.getLastName());
-            guest.setPhoneNumber(guestDTO.getPhoneNumber());
-            guestRepository.save(guest);
-            return ApiResult.success(guestDTO);
-        }
+        guest.setFirstName(guestDTO.getFirstName());
+        guest.setLastName(guestDTO.getLastName());
+        guest.setPhoneNumber(guestDTO.getPhoneNumber());
 
-        return ApiResult.error("Guest not found");
+        guestRepository.save(guest);
+
+        return ApiResult.success(guestDTO);
     }
+
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Hotel;
+import uz.pdp.hotelsystem.exception.RestException;
 import uz.pdp.hotelsystem.payload.HotelDTO;
 import uz.pdp.hotelsystem.repository.HotelRepository;
 
@@ -26,15 +27,14 @@ public class HotelController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     public ApiResult<HotelDTO> update(@RequestBody HotelDTO hotelDTO) {
-        Hotel hotel = new Hotel();
-        Optional<Hotel> byId = hotelRepository.findById(Long.valueOf(hotelDTO.getId()));
-        if (byId.isPresent()) {
-            hotel.setName(hotelDTO.getName());
-            return ApiResult.success(hotelDTO);
-        }
-        else {
-            return ApiResult.error("Hotel not found");
-        }
+        Hotel hotel = hotelRepository.findById(Long.valueOf(hotelDTO.getId()))
+                .orElseThrow(() -> RestException.notFound("Hotel not found", hotelDTO.getId()));
+
+        hotel.setName(hotelDTO.getName());
+        hotelRepository.save(hotel);
+
+        return ApiResult.success(hotelDTO);
     }
+
 
 }

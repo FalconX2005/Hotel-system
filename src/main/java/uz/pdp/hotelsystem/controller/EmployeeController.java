@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import uz.pdp.hotelsystem.entity.Employee;
 import uz.pdp.hotelsystem.entity.User;
+import uz.pdp.hotelsystem.exception.RestException;
 import uz.pdp.hotelsystem.payload.EmployeeDTO;
 import uz.pdp.hotelsystem.repository.EmployeeRepository;
 import uz.pdp.hotelsystem.repository.UserRepository;
@@ -62,9 +63,9 @@ public class EmployeeController {
     @PostMapping("/create")
     public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
-//        if (Objects.isNull(employeeDTO)) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//        }
+        if (Objects.isNull(employeeDTO)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         employee.setFirstName(employeeDTO.getFirstName());
         employee.setLastName(employeeDTO.getLastName());
         employee.setAge(employeeDTO.getAge());
@@ -104,7 +105,7 @@ public class EmployeeController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @DeleteMapping("/{id}")
     public void deleteEmployee(@PathVariable Integer id) {
         Optional<Employee> employee = employeeRepository.findById(Long.valueOf(id));
