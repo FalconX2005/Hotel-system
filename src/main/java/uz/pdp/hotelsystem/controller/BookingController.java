@@ -27,11 +27,7 @@ public class BookingController {
     private final RoomRepository roomRepository;
     private final GuestRepository guestRepository;
 
-    public BookingController(BookingRepository bookingRepository, RoomRepository roomRepository, GuestRepository guestRepository) {
-        this.bookingRepository = bookingRepository;
-        this.roomRepository = roomRepository;
-        this.guestRepository = guestRepository;
-    }
+
 
 
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")

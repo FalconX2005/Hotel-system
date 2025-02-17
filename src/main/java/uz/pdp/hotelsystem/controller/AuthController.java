@@ -60,7 +60,7 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up")
-    public String signUp(@RequestBody SignUpDTO singUpDTO, HttpServletRequest request) {
+    public ApiResult<Object> signUp(@RequestBody SignUpDTO singUpDTO, HttpServletRequest request) {
 
                 Optional<User> optionalUser = userRepository.getUserByUsername(singUpDTO.getUsername());
                 if (optionalUser.isPresent()) {
@@ -83,14 +83,13 @@ public class AuthController {
                 user.getAuthorities()
         );
 
-
         securityContext.setAuthentication(authentication);
 
         HttpSession session = request.getSession();
 
         session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
-        return "success";
+//        return "success";
 //        return "success";
         return ApiResult.success("User logged in");
 

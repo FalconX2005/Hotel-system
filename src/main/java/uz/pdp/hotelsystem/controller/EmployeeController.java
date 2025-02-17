@@ -54,6 +54,9 @@ public class EmployeeController {
             employeeDTO.setFirstName(employee.getFirstName());
             employeeDTO.setAge(employee.getAge());
             employeeDTO.setWorkTime(employee.getWorkTime());
+            employeeDTO.setRole(employee.getUser().getRole());
+            employeeDTO.setUsername(employee.getUser().getUsername());
+
             return employeeDTO;
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -83,8 +86,7 @@ public class EmployeeController {
 
     //@PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    //@PutMapping("/update/{id}")
-    public EmployeeDTO updateEmployee(@PathVariable(name = "id") Integer id ,
+    public ApiResult<Object> updateEmployee(@PathVariable(name = "id") Integer id ,
                                       @RequestBody EmployeeDTO employeeDTO) {
         Optional<Employee> employee = employeeRepository.findById(id.longValue());
         if (employee.isPresent()) {
@@ -99,7 +101,7 @@ public class EmployeeController {
 
             employeeRepository.save(employee1);
 
-            return employeeDTO;
+            return ApiResult.success(employee1);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -107,9 +109,17 @@ public class EmployeeController {
 
 
     @DeleteMapping("/{id}")
-    public void deleteEmployee(@PathVariable Integer id) {
+    public ApiResult<Object> deleteEmployee(@PathVariable Integer id) {
         Optional<Employee> employee = employeeRepository.findById(Long.valueOf(id));
-        employee.ifPresent(employeeRepository::delete);
+        if (employee.isPresent()) {
+            Employee employee1 = employee.get();
+            Integer userId = employee1.getUser().getId();
+            employeeRepository.delete(employee1);
+            userRepository.deleteById(userId);
+            return ApiResult.success(employee.get());
+        }
+        throw RestException.notFound("employee not found",id );
+
     }
 
 }

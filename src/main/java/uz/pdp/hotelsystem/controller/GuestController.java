@@ -8,7 +8,6 @@ import uz.pdp.hotelsystem.exception.RestException;
 import uz.pdp.hotelsystem.payload.GuestDTO;
 import uz.pdp.hotelsystem.repository.GuestRepository;
 
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -37,7 +36,7 @@ public class GuestController {
                         guest.getPhoneNumber()
                 ))
                 .toList();
-        if(guestDTOList.isEmpty()) {
+        if (guestDTOList.isEmpty()) {
             throw RestException.error("Guest not found");
         }
         return ApiResult.success(guestDTOList);
@@ -58,11 +57,12 @@ public class GuestController {
         guestDTO.setPhoneNumber(guest.getPhoneNumber());
         return ApiResult.success(guestDTO);
     }
+
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @PostMapping
     public ApiResult<GuestDTO> createGuest(@RequestBody GuestDTO guestDTO) {
         Guest guest = new Guest();
-        if (Objects.isNull(guestDTO)){
+        if (Objects.isNull(guestDTO)) {
             throw RestException.error("GuestDTO is null");
         }
         guest.setFirstName(guestDTO.getFirstName());
@@ -71,21 +71,22 @@ public class GuestController {
         guestRepository.save(guest);
         return ApiResult.success(guestDTO);
     }
+
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @DeleteMapping("/{id}")
-    public ApiResult<GuestDTO> deleteGuest(@PathVariable Integer id
-                                           ) {
+    public ApiResult<GuestDTO> deleteGuest(@PathVariable Integer id) {
         Guest guest = new Guest();
         if (Objects.isNull(id)) {
             throw RestException.error("id is null");
         }
         Optional<Guest> byId = guestRepository.findById(id.longValue());
-        if(byId.isPresent()) {
+        if (byId.isPresent()) {
             guestRepository.delete(byId.get());
             return ApiResult.success("Guest deleted successfully");
         }
         throw RestException.error("Guest not found");
     }
+
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
     @PutMapping("/{id}")
     public ApiResult<GuestDTO> updateGuest(@PathVariable Integer id, @RequestBody GuestDTO guestDTO) {
