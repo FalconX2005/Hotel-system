@@ -1,5 +1,7 @@
 package uz.pdp.hotelsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +25,8 @@ public class Employee {
 
     private Timestamp workTime;
 
+
+    @JsonIgnore
     @ManyToOne
     private User user;
 

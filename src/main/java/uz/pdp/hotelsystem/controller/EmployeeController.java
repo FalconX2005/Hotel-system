@@ -37,6 +37,7 @@ public class EmployeeController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<Employee> findAll() {
+
         return employeeRepository.findAll();
     }
 
@@ -61,33 +62,28 @@ public class EmployeeController {
     @PostMapping("/create")
     public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
-        if (Objects.isNull(employeeDTO)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+//        if (Objects.isNull(employeeDTO)) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
         employee.setFirstName(employeeDTO.getFirstName());
         employee.setLastName(employeeDTO.getLastName());
         employee.setAge(employeeDTO.getAge());
         employee.setWorkTime(employeeDTO.getWorkTime());
-        Integer userId = employeeDTO.getUserId();
-        Optional<User> byId = userRepository.findById(userId);
-        if (byId.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
         User user = new User();
-        user.setPassword(passwordEncoder.encode(employeeDTO.getUser().getPassword()));
-        user.setUsername(employeeDTO.getUser().getUsername());
-        user.setRole(employeeDTO.getUser().getRole());
+        user.setRole(employeeDTO.getRole());
+        user.setPassword(passwordEncoder.encode(employeeDTO.getPassword()));
+        user.setUsername(employeeDTO.getUsername());
+        userRepository.save(user);
         employee.setUser(user);
         employeeRepository.save(employee);
-
-
         return employeeDTO;
 
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/{id}")
-    public EmployeeDTO updateEmployee(@PathVariable Integer id ,
+    //@PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    //@PutMapping("/update/{id}")
+    public EmployeeDTO updateEmployee(@PathVariable(name = "id") Integer id ,
                                       @RequestBody EmployeeDTO employeeDTO) {
         Optional<Employee> employee = employeeRepository.findById(id.longValue());
         if (employee.isPresent()) {
@@ -96,7 +92,12 @@ public class EmployeeController {
             employee1.setLastName(employeeDTO.getLastName());
             employee1.setAge(employeeDTO.getAge());
             employee1.setWorkTime(employeeDTO.getWorkTime());
+            employee1.getUser().setRole(employeeDTO.getRole());
+            employee1.getUser().setPassword(passwordEncoder.encode(employeeDTO.getPassword()));
+            employee1.getUser().setUsername(employeeDTO.getUsername());
+
             employeeRepository.save(employee1);
+
             return employeeDTO;
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

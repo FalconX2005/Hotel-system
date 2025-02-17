@@ -18,9 +18,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 
-@EnableWebSecurity
+//@EnableWebSecurity
 @Configuration
-@EnableMethodSecurity
+//@EnableMethodSecurity
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
@@ -44,10 +44,8 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         "/api/**",
                                         "/auth/login",
-//                        "auth/sign-up",
                                         "/**.html",
-//                        "/open",
-                        "/**"
+                                        "/**"
                                 )
                                 .permitAll()
                                 .anyRequest()
@@ -78,7 +76,7 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of("*")); // Hamma domenga ruxsat
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+        //config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
