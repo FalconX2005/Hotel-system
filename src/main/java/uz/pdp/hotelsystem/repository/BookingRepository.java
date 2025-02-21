@@ -7,5 +7,5 @@ import uz.pdp.hotelsystem.entity.Payment;
 import java.util.Optional;
 
 
-public interface BookingRepository extends JpaRepository<BookingRoom,Integer> {
+public interface BookingRepository extends JpaRepository<BookingRoom,Long> {
 }

@@ -8,14 +8,17 @@ import lombok.NoArgsConstructor;
 import uz.pdp.hotelsystem.entity.User;
 import uz.pdp.hotelsystem.enums.RoleEnum;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
+
+/**
+ * DTO for {@link uz.pdp.hotelsystem.entity.Employee}
+ */
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class EmployeeDTO {
-
-    private Integer id;
+public class EmployeeDTO implements Serializable {
+    private Long id;
     private String firstName;
     private String lastName;
     private Integer age;

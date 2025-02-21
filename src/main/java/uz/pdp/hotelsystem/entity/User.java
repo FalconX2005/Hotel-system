@@ -5,38 +5,37 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import uz.pdp.hotelsystem.entity.tempAbs.AbsLongEntity;
 import uz.pdp.hotelsystem.enums.RoleEnum;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
+@Getter
 @ToString
 @Entity(name = "users")
-public class User implements UserDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class User extends AbsLongEntity implements UserDetails {
 
     private String username;
 
     private String password;
 
+    private String email;
+
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
 
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.name());
+        return List.of();
     }
 
     @Override
