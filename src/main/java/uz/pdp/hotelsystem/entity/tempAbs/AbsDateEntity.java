@@ -3,9 +3,7 @@ package uz.pdp.hotelsystem.entity.tempAbs;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
@@ -17,7 +15,9 @@ import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class AbsDateEntity {
