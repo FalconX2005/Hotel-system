@@ -12,9 +12,9 @@ import java.sql.Timestamp;
 @Data
 public class PaymentDTO {
 
-    private Integer id;
+    private Long id;
 
-    private Integer bookingRoomId;
+    private Long bookingRoomId;
 
     private Long amount;
 

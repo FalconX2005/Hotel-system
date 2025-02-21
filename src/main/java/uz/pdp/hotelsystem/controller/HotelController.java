@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Hotel;
 import uz.pdp.hotelsystem.exception.RestException;
+import uz.pdp.hotelsystem.payload.ApiResult;
 import uz.pdp.hotelsystem.payload.HotelDTO;
 import uz.pdp.hotelsystem.repository.HotelRepository;
 

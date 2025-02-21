@@ -8,6 +8,7 @@ import uz.pdp.hotelsystem.entity.Guest;
 import uz.pdp.hotelsystem.entity.Room;
 import uz.pdp.hotelsystem.enums.StatusBooking;
 import uz.pdp.hotelsystem.exception.RestException;
+import uz.pdp.hotelsystem.payload.ApiResult;
 import uz.pdp.hotelsystem.payload.BookingRoomDTO;
 import uz.pdp.hotelsystem.repository.BookingRepository;
 import uz.pdp.hotelsystem.repository.GuestRepository;

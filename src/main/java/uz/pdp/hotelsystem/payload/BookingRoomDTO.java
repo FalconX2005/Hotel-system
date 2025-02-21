@@ -14,11 +14,11 @@ import java.sql.Timestamp;
 @Data
 public class BookingRoomDTO {
 
-    private Integer id;
+    private Long id;
 
-    private Integer guestId;
+    private Long guestId;
 
-    private Integer roomId;
+    private Long roomId;
 
     private Timestamp check_in_date;
 

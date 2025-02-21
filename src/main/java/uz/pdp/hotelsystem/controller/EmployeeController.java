@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import uz.pdp.hotelsystem.entity.Employee;
 import uz.pdp.hotelsystem.entity.User;
 import uz.pdp.hotelsystem.exception.RestException;
+import uz.pdp.hotelsystem.payload.ApiResult;
 import uz.pdp.hotelsystem.payload.EmployeeDTO;
 import uz.pdp.hotelsystem.repository.EmployeeRepository;
 import uz.pdp.hotelsystem.repository.UserRepository;
@@ -49,7 +50,7 @@ public class EmployeeController {
         if (optionalEmployee.isPresent()) {
             Employee employee = optionalEmployee.get();
             EmployeeDTO employeeDTO = new EmployeeDTO();
-            employeeDTO.setId(Math.toIntExact(employee.getId()));
+            employeeDTO.setId(employee.getId());
             employeeDTO.setLastName(employee.getLastName());
             employeeDTO.setFirstName(employee.getFirstName());
             employeeDTO.setAge(employee.getAge());
@@ -87,7 +88,7 @@ public class EmployeeController {
     //@PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ApiResult<Object> updateEmployee(@PathVariable(name = "id") Integer id ,
-                                      @RequestBody EmployeeDTO employeeDTO) {
+                                            @RequestBody EmployeeDTO employeeDTO) {
         Optional<Employee> employee = employeeRepository.findById(id.longValue());
         if (employee.isPresent()) {
             Employee employee1 = employee.get();
@@ -113,7 +114,7 @@ public class EmployeeController {
         Optional<Employee> employee = employeeRepository.findById(Long.valueOf(id));
         if (employee.isPresent()) {
             Employee employee1 = employee.get();
-            Integer userId = employee1.getUser().getId();
+            Long userId = employee1.getUser().getId();
             employeeRepository.delete(employee1);
             userRepository.deleteById(userId);
             return ApiResult.success(employee.get());

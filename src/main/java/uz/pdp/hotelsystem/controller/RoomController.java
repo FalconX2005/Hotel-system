@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Hotel;
 import uz.pdp.hotelsystem.entity.Room;
+import uz.pdp.hotelsystem.payload.ApiResult;
 import uz.pdp.hotelsystem.payload.RoomDTO;
 import uz.pdp.hotelsystem.repository.HotelRepository;
 import uz.pdp.hotelsystem.repository.RoomRepository;
@@ -109,7 +110,7 @@ public class RoomController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/{id}")
     public ApiResult<Room> update(@PathVariable Integer id ,
-            @RequestBody RoomDTO roomDto) {
+                                  @RequestBody RoomDTO roomDto) {
         Optional<Room> byId = roomRepository.findById(id.longValue());
 
 

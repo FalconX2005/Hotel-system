@@ -14,9 +14,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO implements Serializable {
-    private Integer id;
+    private Long id;
+
     private String username;
+
     private String password;
+
     private String email;
+
     private RoleEnum role;
 }

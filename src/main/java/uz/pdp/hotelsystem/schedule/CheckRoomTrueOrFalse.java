@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import uz.pdp.hotelsystem.controller.ApiResult;
 import uz.pdp.hotelsystem.entity.BookingRoom;
 import uz.pdp.hotelsystem.entity.Room;
 import uz.pdp.hotelsystem.repository.BookingRepository;

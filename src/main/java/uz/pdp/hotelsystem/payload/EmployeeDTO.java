@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class EmployeeDTO implements Serializable {
     private Long id;
     private String firstName;

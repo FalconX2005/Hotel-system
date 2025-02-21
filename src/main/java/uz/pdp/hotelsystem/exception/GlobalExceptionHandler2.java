@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  * DateTime: 2/10/2025 4:46 PM
  */
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler2 {
 
     @ExceptionHandler(RestException.class)
     public ResponseEntity<ErrorDTO> handle(RestException e) {
