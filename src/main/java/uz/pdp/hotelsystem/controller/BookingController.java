@@ -73,6 +73,7 @@ public class BookingController {
         bookingRoom.setCheck_in_date(bookingRoomDTO.getCheck_in_date());
         bookingRoom.setCheck_out_date(bookingRoomDTO.getCheck_out_date());
         bookingRoom.setStatus(StatusBooking.BOOKED);
+        bookingRepository.save(bookingRoom);
 
         return ApiResult.success(bookingRoomDTO);
     }

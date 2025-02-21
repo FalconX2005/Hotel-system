@@ -30,5 +30,4 @@ public class ApiResult<T> {
         return new ApiResult<>(false,message,null);
     }
 
-
 }

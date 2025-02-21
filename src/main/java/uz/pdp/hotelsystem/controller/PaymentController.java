@@ -64,21 +64,21 @@ public class PaymentController {
 
         Payment savedPayment = paymentRepository.save(payment);
 
-        bookingRoom.setStatus(StatusBooking.PAID);
+        bookingRoom.setStatus(StatusBooking.BOOKED);
         bookingRepository.save(bookingRoom);
 
         Room room = bookingRoom.getRoom();
-        room.setIs_available(true);
+        room.setIs_available(false);
         roomRepository.save(room);
 
-        PaymentDTO response = new PaymentDTO();
-        response.setId(savedPayment.getId());
-        response.setBookingRoomId(savedPayment.getBookingRoom().getId());
-        response.setAmount(savedPayment.getAmount());
-        response.setPaymentDate(savedPayment.getPaymentDate());
-        response.setPaymentMethod(savedPayment.getPaymentMethod());
+        PaymentDTO result = new PaymentDTO();
+        result.setId(savedPayment.getId());
+        result.setBookingRoomId(savedPayment.getBookingRoom().getId());
+        result.setAmount(savedPayment.getAmount());
+        result.setPaymentDate(savedPayment.getPaymentDate());
+        result.setPaymentMethod(savedPayment.getPaymentMethod());
 
-        return ApiResult.success(response);
+        return ApiResult.success(result);
     }
 
     @GetMapping("/by-booking/{bookingId}")

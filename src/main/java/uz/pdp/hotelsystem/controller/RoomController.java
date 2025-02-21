@@ -30,6 +30,7 @@ public class RoomController {
         for (Room room : all) {
             if (room.getIs_available()){
                 RoomDTO roomDTO = new RoomDTO();
+                roomDTO.setId(room.getId());
                 roomDTO.setHotelId(room.getHotel().getId());
                 roomDTO.setIs_available(room.getIs_available());
                 roomDTO.setPrice(room.getPrice());
