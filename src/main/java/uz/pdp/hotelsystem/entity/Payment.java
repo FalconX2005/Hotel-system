@@ -2,6 +2,7 @@ package uz.pdp.hotelsystem.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import uz.pdp.hotelsystem.entity.tempAbs.AbsLongEntity;
 import uz.pdp.hotelsystem.enums.PaymentMethod;
 
 import java.sql.Timestamp;
@@ -12,11 +13,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @ToString
-public class Payment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Payment extends AbsLongEntity {
 
     @OneToOne
     private BookingRoom bookingRoom;
@@ -24,7 +21,6 @@ public class Payment {
     private Long amount;
 
     private Timestamp paymentDate;
-
 
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
