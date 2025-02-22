@@ -1,6 +1,7 @@
 package uz.pdp.hotelsystem.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.BookingRoom;
@@ -31,7 +32,8 @@ public class BookingController {
 
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','MANAGER','REGISTER')")
+    @Secured("ROLE_ADMIN")
     @GetMapping
     public ApiResult<List<BookingRoomDTO>> readBookingRooms(){
         List<BookingRoom> all = bookingRepository.findAll();
