@@ -18,9 +18,9 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("My API").version("1.0"))
-                .addSecurityItem(new SecurityRequirement().addList("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb25zIiwiaWF0IjoxNzQwMTQ4MTgyLCJleHAiOjE3NDAyMzQ1ODJ9.T2BX_isSQamHRJ_aeZfHgcgCxWcCX92TKUY6muZROhDtzxnLCPpHCtqu_o-VoiOYAOyiAGgqqeAsCOZKWUHl7Q"))
+                .addSecurityItem(new SecurityRequirement().addList("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ4b25kYW1pciIsImlhdCI6MTc0MDQxMDY3OCwiZXhwIjoxNzQwNDk3MDc4fQ.JmTLu8vv9SsHgSla7WT1cQLdb9-fBiLijOzLmsgKpVwsI9nxvBrp1nXaN_A5AUh_cwXgQp4fhHQYFaJ_r2yuJQ"))
                 .components(new io.swagger.v3.oas.models.Components()
-                        .addSecuritySchemes("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb25zIiwiaWF0IjoxNzQwMTQ4MTgyLCJleHAiOjE3NDAyMzQ1ODJ9.T2BX_isSQamHRJ_aeZfHgcgCxWcCX92TKUY6muZROhDtzxnLCPpHCtqu_o-VoiOYAOyiAGgqqeAsCOZKWUHl7Q", new SecurityScheme()
+                        .addSecuritySchemes("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ4b25kYW1pciIsImlhdCI6MTc0MDQxMDY3OCwiZXhwIjoxNzQwNDk3MDc4fQ.JmTLu8vv9SsHgSla7WT1cQLdb9-fBiLijOzLmsgKpVwsI9nxvBrp1nXaN_A5AUh_cwXgQp4fhHQYFaJ_r2yuJQ", new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
                                 .bearerFormat("JWT")
@@ -29,21 +29,4 @@ public class OpenApiConfig {
     }
 
 
-//    @Bean
-//    public OpenAPI customOpenAPI() {
-//        return new OpenAPI().info(new Info().title("My Api").version("1.0"))
-//                .addSecurityItem(new SecurityRequirement().addList("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb25zIiwiaWF0IjoxNzQwMTQ4MTgyLCJleHAiOjE3NDAyMzQ1ODJ9.T2BX_isSQamHRJ_aeZfHgcgCxWcCX92TKUY6muZROhDtzxnLCPpHCtqu_o-VoiOYAOyiAGgqqeAsCOZKWUHl7Q"))
-//                .components(new io.swagger.v3.oas.models.Components()
-//                        .addSecuritySchemes("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb25zIiwiaWF0IjoxNzQwMTQ4MTgyLCJleHAiOjE3NDAyMzQ1ODJ9.T2BX_isSQamHRJ_aeZfHgcgCxWcCX92TKUY6muZROhDtzxnLCPpHCtqu_o-VoiOYAOyiAGgqqeAsCOZKWUHl7Q",new SecurityScheme())
-//                        .)
-//    }
 }
-// .info(new Info().title("My API").version("1.0"))
-//        .addSecurityItem(new SecurityRequirement().addList("Bearer Token"))
-//        .components(new io.swagger.v3.oas.models.Components()
-//                .addSecuritySchemes("Bearer Token", new SecurityScheme()
-//                    .type(SecurityScheme.Type.HTTP)
-//                    .scheme("bearer")
-//                    .bearerFormat("JWT")
-//                )
-//                        );

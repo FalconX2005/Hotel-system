@@ -1,6 +1,7 @@
 package uz.pdp.hotelsystem.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Guest;
@@ -20,7 +21,7 @@ public class GuestController {
     private final GuestRepository guestRepository;
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
+    @Secured("ROLE_ADMIN,ROLE_MANAGER,ROLE_REGISTER")
     @GetMapping
     public ApiResult<List<GuestDTO>> readAllGuests() {
         List<Guest> allGuests = guestRepository.findAll();
@@ -43,7 +44,7 @@ public class GuestController {
         return ApiResult.success(guestDTOList);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
+    @Secured("ROLE_ADMIN,ROLE_MANAGER,ROLE_REGISTER")
     @GetMapping("/{id}")
     public ApiResult<GuestDTO> readGuest(@PathVariable Integer id) {
         GuestDTO guestDTO = new GuestDTO();
@@ -59,7 +60,7 @@ public class GuestController {
         return ApiResult.success(guestDTO);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
+    @Secured("ROLE_ADMIN,ROLE_MANAGER,ROLE_REGISTER")
     @PostMapping
     public ApiResult<GuestDTO> createGuest(@RequestBody GuestDTO guestDTO) {
         Guest guest = new Guest();
@@ -73,7 +74,7 @@ public class GuestController {
         return ApiResult.success(guestDTO);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
+    @Secured("ROLE_ADMIN,ROLE_MANAGER,ROLE_REGISTER")
     @DeleteMapping("/{id}")
     public ApiResult<GuestDTO> deleteGuest(@PathVariable Integer id) {
         Guest guest = new Guest();
@@ -88,7 +89,7 @@ public class GuestController {
         throw RestException.error("Guest not found");
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
+    @Secured("ROLE_ADMIN,ROLE_MANAGER,ROLE_REGISTER")
     @PutMapping("/{id}")
     public ApiResult<GuestDTO> updateGuest(@PathVariable Integer id, @RequestBody GuestDTO guestDTO) {
         Guest guest = guestRepository.findById(id.longValue())

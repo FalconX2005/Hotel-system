@@ -11,7 +11,6 @@ import uz.pdp.hotelsystem.payload.RoomDTO;
 import uz.pdp.hotelsystem.repository.HotelRepository;
 import uz.pdp.hotelsystem.repository.RoomRepository;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,18 +19,17 @@ import java.util.Optional;
 @RequestMapping("/room")
 @RequiredArgsConstructor
 public class RoomController {
-    private   final RoomRepository roomRepository;
+    private final RoomRepository roomRepository;
     private final HotelRepository hotelRepository;
 
 
-//    @PreAuthorize("hasRole('ADMIN')")
-    @Secured("ROLE_ADMIN")
+    @Secured("ROLE_ADMIN,ROLE_REGISTER,ROLE_MANAGER")
     @GetMapping
     public ApiResult<List<RoomDTO>> readAll() {
         List<RoomDTO> rooms = new ArrayList<>();
         List<Room> all = roomRepository.findAll();
         for (Room room : all) {
-            if (room.getIs_available()){
+            if (room.getIs_available()) {
                 RoomDTO roomDTO = new RoomDTO();
                 roomDTO.setId(room.getId());
                 roomDTO.setHotelId(room.getHotel().getId());
@@ -46,9 +44,7 @@ public class RoomController {
     }
 
 
-
-
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','REGISTER')")
+    @Secured("ROLE_ADMIN,ROLE_MANAGER,ROLE_REGISTER")
     @GetMapping("/{id}")
     public ApiResult<RoomDTO> read(@PathVariable Long id) {
         RoomDTO roomDto = new RoomDTO();
@@ -62,15 +58,13 @@ public class RoomController {
             roomDto.setName(room.getName());
             roomDto.setId(room.getId());
             return ApiResult.success(roomDto);
-        }
-        else {
+        } else {
             return ApiResult.error("Room not found");
         }
     }
 
 
-
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("ROLE_ADMIN")
     @PostMapping("/create")
     public ApiResult<Room> create(@RequestBody RoomDTO roomDto) {
 //        List<Room> allRooms = roomRepository.findAll();
@@ -97,7 +91,7 @@ public class RoomController {
 
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("delete/{id}")
     public ApiResult<Room> delete(@PathVariable Integer id) {
         Optional<Room> byId = roomRepository.findById(id.longValue());
@@ -109,9 +103,9 @@ public class RoomController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("ROLE_ADMIN")
     @PutMapping("/update/{id}")
-    public ApiResult<Room> update(@PathVariable Integer id ,
+    public ApiResult<Room> update(@PathVariable Integer id,
                                   @RequestBody RoomDTO roomDto) {
         Optional<Room> byId = roomRepository.findById(id.longValue());
 
@@ -127,12 +121,10 @@ public class RoomController {
                 room.setHotel(hotel);
                 Room save = roomRepository.save(room);
                 return ApiResult.success(save);
-            }
-            else {
+            } else {
                 return ApiResult.error("Room with id " + roomDto.getId() + " is not available");
             }
-        }
-        else {
+        } else {
             return ApiResult.error("Room with id " + roomDto.getId() + "  room not found");
         }
     }

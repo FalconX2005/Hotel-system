@@ -2,6 +2,7 @@ package uz.pdp.hotelsystem.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -36,17 +37,17 @@ public class EmployeeController {
         this.userRepository = userRepository;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("ROLE_ADMIN,ROLE_MANAGER")
     @GetMapping
     public List<Employee> findAll() {
 
         return employeeRepository.findAll();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("ROLE_ADMIN,ROLE_MANAGER")
     @GetMapping("/{id}")
-    public EmployeeDTO findById(@PathVariable Integer id) {
-        Optional<Employee> optionalEmployee = employeeRepository.findById(Long.valueOf(id));
+    public EmployeeDTO findById(@PathVariable Long id) {
+        Optional<Employee> optionalEmployee = employeeRepository.findById(id);
         if (optionalEmployee.isPresent()) {
             Employee employee = optionalEmployee.get();
             EmployeeDTO employeeDTO = new EmployeeDTO();
@@ -63,7 +64,7 @@ public class EmployeeController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("ROLE_ADMIN,ROLE_MANAGER")
     @PostMapping("/create")
     public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
@@ -86,6 +87,7 @@ public class EmployeeController {
     }
 
     //@PreAuthorize("hasRole('ADMIN')")
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ApiResult<Object> updateEmployee(@PathVariable(name = "id") Integer id ,
                                             @RequestBody EmployeeDTO employeeDTO) {
@@ -109,6 +111,7 @@ public class EmployeeController {
     }
 
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ApiResult<Object> deleteEmployee(@PathVariable Integer id) {
         Optional<Employee> employee = employeeRepository.findById(Long.valueOf(id));

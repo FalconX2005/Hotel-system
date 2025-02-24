@@ -32,7 +32,6 @@ public class BookingController {
 
 
 
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','MANAGER','REGISTER')")
     @Secured("ROLE_ADMIN")
     @GetMapping
     public ApiResult<List<BookingRoomDTO>> readBookingRooms(){
@@ -54,6 +53,7 @@ public class BookingController {
         }
         return ApiResult.error("Booking rooms not found");
     }
+    @Secured("ROLE_ADMIN,ROLE_MANAGER,ROLE_REGISTER")
     @PostMapping
     public ApiResult<BookingRoomDTO> createBookingRoom(@RequestBody BookingRoomDTO bookingRoomDTO){
         BookingRoom bookingRoom = new BookingRoom();

@@ -1,7 +1,8 @@
 package uz.pdp.hotelsystem.enums;
 
-import org.springframework.security.core.GrantedAuthority;
+import lombok.experimental.FieldNameConstants;
 
+@FieldNameConstants
 public enum RoleEnum  {
 
     ROLE_USER,

@@ -1,6 +1,7 @@
 package uz.pdp.hotelsystem.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.BookingRoom;
 import uz.pdp.hotelsystem.entity.Payment;
@@ -28,6 +29,7 @@ public class PaymentController {
     private final BookingRepository bookingRepository;
     private final RoomRepository roomRepository;
 
+    @Secured("ROLE_REGISTER")
     @PostMapping("/pay")
     public ApiResult<PaymentDTO> paymentForBooking(@RequestBody PaymentDTO paymentDTO ) {
         Optional<BookingRoom> byId = bookingRepository.findById(paymentDTO.getBookingRoomId());
@@ -81,7 +83,7 @@ public class PaymentController {
 
         return ApiResult.success(result);
     }
-
+    @Secured("ROLE_ADMIN,ROLE_REGISTER")
     @GetMapping("/by-booking/{bookingId}")
     public ApiResult<PaymentDTO> getPaymentByBookingId(@PathVariable Integer bookingId) {
         Optional<Payment> byBookingRoomId = paymentRepository.findByBookingRoomId(bookingId);
@@ -101,6 +103,8 @@ public class PaymentController {
         return ApiResult.success(paymentDTO);
     }
 
+
+    @Secured("ROLE_ADMIN,ROLE_REGISTER")
     @GetMapping
     public ApiResult<List<PaymentDTO>> getAllPayments() {
         List<Payment> payments = paymentRepository.findAll();
