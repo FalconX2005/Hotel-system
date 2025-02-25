@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import uz.pdp.hotelsystem.securty.AuthService;
 import uz.pdp.hotelsystem.securty.SecurityFilter;
 
+import java.util.List;
 
 @EnableWebSecurity
 @Configuration
@@ -59,6 +60,9 @@ public class SecurityConfig {
         http.authorizeHttpRequests(conf -> conf
                 .requestMatchers(
                         "/auth/**"
+                        ,"/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html"
 //                        ,"/**"
                 ).permitAll()
                 .anyRequest()

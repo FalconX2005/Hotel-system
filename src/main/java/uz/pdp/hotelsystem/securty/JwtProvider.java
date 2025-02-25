@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -15,6 +16,7 @@ public class JwtProvider {
 
     @Value("${jwt.key}")
     private String jwtSecretKey;
+
 
     public String generateToken(String username, Date expiration) {
         //  todo JWT token

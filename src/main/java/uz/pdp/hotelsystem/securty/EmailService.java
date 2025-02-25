@@ -5,16 +5,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 
 @Service
 @RequiredArgsConstructor
 public class EmailService {
 
+   private final JavaMailSender mailSender;
+
+
+
     @Value("${reset-password}")
     private String resetPasswordUrl;
 
-    private final JavaMailSender mailSender;
 
     public void sendResetPasswordEmail(String email, String token) {
         SimpleMailMessage message = new SimpleMailMessage();

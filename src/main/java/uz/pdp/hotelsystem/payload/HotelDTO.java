@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ResetPasswordTokenDTO {
+public class HotelDTO {
+    private Long id;
 
-    private String token;
-    private String newPassword;
+    private String name;
+
+
 }

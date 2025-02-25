@@ -1,5 +1,6 @@
 package uz.pdp.hotelsystem.payload;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,8 +8,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ResetPasswordTokenDTO {
+public class GuestDTO {
 
-    private String token;
-    private String newPassword;
+    private Long id;
+
+    private String firstName;
+
+
+    private String lastName;
+
+    private String phoneNumber;
+
+
 }

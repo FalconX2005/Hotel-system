@@ -5,7 +5,9 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -20,6 +22,8 @@ import java.sql.Timestamp;
 @ToString
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class AbsDateEntity {
 
     @CreationTimestamp
@@ -32,6 +36,7 @@ public class AbsDateEntity {
     private boolean deleted;
 
     @CreatedBy
+
     private String createdBy;
 
     @LastModifiedBy

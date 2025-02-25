@@ -15,6 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class LoginDTO implements Serializable {
 
+
     private String username;
     private String password;
 

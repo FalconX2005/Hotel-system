@@ -1,7 +1,7 @@
 package uz.pdp.hotelsystem.enums;
 
 public enum StatusBooking {
-    PAYED,
+    PAID,
     BOOKED,
     CANCELED,
 }
