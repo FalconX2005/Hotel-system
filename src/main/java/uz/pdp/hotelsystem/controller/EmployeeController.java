@@ -81,6 +81,7 @@ public class EmployeeController {
         user.setUsername(employeeDTO.getUsername());
         userRepository.save(user);
         employee.setUser(user);
+        employeeDTO.setId(employee.getId());
         employeeRepository.save(employee);
         return employeeDTO;
 

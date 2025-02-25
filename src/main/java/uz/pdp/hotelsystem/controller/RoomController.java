@@ -67,13 +67,7 @@ public class RoomController {
     @Secured("ROLE_ADMIN")
     @PostMapping("/create")
     public ApiResult<Room> create(@RequestBody RoomDTO roomDto) {
-//        List<Room> allRooms = roomRepository.findAll();
-//        for (Room allRoom : allRooms) {
-//
-////            if (roomDto.getId().equals(allRoom.getId())) {
-////                return ApiResult.error("Room already exists");
-////            }
-//        }
+
 
         Room room = new Room();
 

@@ -3,6 +3,7 @@ package uz.pdp.hotelsystem.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.payload.LoginDTO;
 import uz.pdp.hotelsystem.payload.ResetPasswordTokenDTO;
@@ -23,6 +24,7 @@ public class AuthController {
         return authService.login(loginDTO);
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/sign-up")
     public Object signUp(@RequestBody SignUpDTO signUpDTO) {
         return authService.signUp(signUpDTO);
