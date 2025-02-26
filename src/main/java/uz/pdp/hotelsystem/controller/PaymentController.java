@@ -58,7 +58,6 @@ public class PaymentController {
             throw RestException.error("Not enough money");
         }
 
-
         Payment payment = new Payment();
         payment.setBookingRoom(bookingRoom);
         payment.setAmount(paymentDTO.getAmount());

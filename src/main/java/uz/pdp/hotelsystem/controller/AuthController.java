@@ -24,11 +24,13 @@ public class AuthController {
         return authService.login(loginDTO);
     }
 
+/*
     @Secured("ROLE_ADMIN")
     @PostMapping("/sign-up")
     public Object signUp(@RequestBody SignUpDTO signUpDTO) {
         return authService.signUp(signUpDTO);
     }
+*/
 
     @PostMapping("/request-reset")
     public void requestPasswordReset(@RequestParam String email) {

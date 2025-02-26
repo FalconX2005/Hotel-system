@@ -11,5 +11,5 @@ public interface AuthService extends UserDetailsService {
 
     Object login(LoginDTO loginDTO);
 
-    Object signUp(SignUpDTO signUpDTO);
+//    Object signUp(SignUpDTO signUpDTO);
 }

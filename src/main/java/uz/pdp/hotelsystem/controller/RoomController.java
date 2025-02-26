@@ -68,7 +68,6 @@ public class RoomController {
     @PostMapping("/create")
     public ApiResult<Room> create(@RequestBody RoomDTO roomDto) {
 
-
         Room room = new Room();
 
         room.setName(roomDto.getName());

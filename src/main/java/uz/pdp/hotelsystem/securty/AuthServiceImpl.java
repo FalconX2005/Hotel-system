@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
 
     }
 
-    @Override
+    /*@Override
     public String signUp(SignUpDTO signUpDTO) {
         Optional<User> optionalUser = userRepository.getUserByUsername(signUpDTO.getUsername());
         if (optionalUser.isPresent())
@@ -56,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
 
         return "User registered successfully!";
-    }
+    }*/
 
 
 }

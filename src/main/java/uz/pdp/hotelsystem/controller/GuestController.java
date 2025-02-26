@@ -2,7 +2,6 @@ package uz.pdp.hotelsystem.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hotelsystem.entity.Guest;
 import uz.pdp.hotelsystem.exception.RestException;
