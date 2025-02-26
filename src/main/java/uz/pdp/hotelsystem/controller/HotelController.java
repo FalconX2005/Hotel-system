@@ -25,12 +25,24 @@ public class HotelController {
 
     private final HotelRepository hotelRepository;
 
-    @Secured({"ROLE_ADMIN","ROLE_USER"})
+    @Secured({"ROLE_ADMIN","ROLE_RECEPTION"})
     @GetMapping
     public List<Hotel> read() {
         return hotelRepository.findAll();
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/create")
+    public ApiResult create(@RequestBody HotelDTO hotelDTO) {
+        Optional<Hotel> hotelById = hotelRepository.findById(hotelDTO.getId());
+        if (hotelById.isPresent()) {
+            throw RestException.error("Hotel already exists");
+        }
+        Hotel hotel = new Hotel();
+        hotel.setName(hotelDTO.getName());
+        return ApiResult.success(hotelRepository.save(hotel));
+
+    }
+    @Secured("ROLE_ADMIN")
     @PutMapping
     public ApiResult<HotelDTO> update(@RequestBody HotelDTO hotelDTO) {
         Hotel hotel = hotelRepository.findById(Long.valueOf(hotelDTO.getId()))
@@ -41,6 +53,20 @@ public class HotelController {
 
         return ApiResult.success(hotelDTO);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ApiResult<HotelDTO> delete(@PathVariable Long id) {
+
+        Hotel hotel = hotelRepository.findById(id).get();
+        if(hotel.isDeleted()){
+            throw RestException.notFound("Hotel already deleted", id);
+        }
+        hotelRepository.delete(hotel);
+        return ApiResult.success("Hotel has been deleted");
+    }
+
+
+
 
 
 }

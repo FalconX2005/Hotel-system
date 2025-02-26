@@ -1,4 +1,4 @@
-package uz.pdp.hotelsystem.service;
+package uz.pdp.hotelsystem.filter;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.*;

@@ -22,8 +22,6 @@ import java.sql.Timestamp;
 @ToString
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
-@Where(clause = "deleted = false")
 public class AbsDateEntity {
 
     @CreationTimestamp

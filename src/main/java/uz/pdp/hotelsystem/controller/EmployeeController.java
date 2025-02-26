@@ -54,8 +54,9 @@ public class EmployeeController {
             employeeDTO.setId(employee.getId());
             employeeDTO.setLastName(employee.getLastName());
             employeeDTO.setFirstName(employee.getFirstName());
-            employeeDTO.setAge(employee.getAge());
-            employeeDTO.setWorkTime(employee.getWorkTime());
+            employeeDTO.setBirthDate(employee.getBirthdate());
+            employeeDTO.setStartTime(employee.getStartTime());
+            employeeDTO.setEndTime(employee.getEndTime());
             employeeDTO.setRole(employee.getUser().getRole());
             employeeDTO.setUsername(employee.getUser().getUsername());
 
@@ -73,8 +74,9 @@ public class EmployeeController {
         }
         employee.setFirstName(employeeDTO.getFirstName());
         employee.setLastName(employeeDTO.getLastName());
-        employee.setAge(employeeDTO.getAge());
-        employee.setWorkTime(employeeDTO.getWorkTime());
+        employee.setBirthdate(employeeDTO.getBirthDate());
+        employee.setStartTime(employeeDTO.getStartTime());
+        employee.setEndTime(employeeDTO.getEndTime());
         User user = new User();
         user.setRole(employeeDTO.getRole());
         user.setPassword(passwordEncoder.encode(employeeDTO.getPassword()));
@@ -97,8 +99,9 @@ public class EmployeeController {
             Employee employee1 = employee.get();
             employee1.setFirstName(employeeDTO.getFirstName());
             employee1.setLastName(employeeDTO.getLastName());
-            employee1.setAge(employeeDTO.getAge());
-            employee1.setWorkTime(employeeDTO.getWorkTime());
+            employee1.setBirthdate(employeeDTO.getBirthDate());
+            employee1.setStartTime(employeeDTO.getStartTime());
+            employee1.setEndTime(employeeDTO.getEndTime());
             employee1.getUser().setRole(employeeDTO.getRole());
             employee1.getUser().setPassword(passwordEncoder.encode(employeeDTO.getPassword()));
             employee1.getUser().setUsername(employeeDTO.getUsername());

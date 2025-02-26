@@ -3,7 +3,7 @@ package uz.pdp.hotelsystem;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "uz.pdp")
+@SpringBootApplication
 public class HotelSystemApplication {
 
     public static void main(String[] args) {

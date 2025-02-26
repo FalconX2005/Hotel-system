@@ -5,6 +5,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import uz.pdp.hotelsystem.entity.tempAbs.AbsLongEntity;
 
 import java.util.Date;
@@ -16,12 +18,15 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@SQLDelete(sql = "UPDATE password_reset_token SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class PasswordResetToken extends AbsLongEntity {
 
     private String token;
 
     @OneToOne
     private User user;
+
 
     private Date expirationDate;
 

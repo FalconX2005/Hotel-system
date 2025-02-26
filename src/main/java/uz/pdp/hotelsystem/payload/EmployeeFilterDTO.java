@@ -1,5 +1,6 @@
 package uz.pdp.hotelsystem.payload;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,10 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Data
 public class EmployeeFilterDTO {
+
+    @NotEmpty
     private String firstName;
+    @NotEmpty
     private String lastName;
     private Integer age;
 

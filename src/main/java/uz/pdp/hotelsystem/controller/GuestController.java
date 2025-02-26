@@ -71,6 +71,7 @@ public class GuestController {
         guest.setLastName(guestDTO.getLastName());
         guest.setPhoneNumber(guestDTO.getPhoneNumber());
         guestRepository.save(guest);
+        guestDTO.setId(guest.getId());
         return ApiResult.success(guestDTO);
     }
 

@@ -2,6 +2,8 @@ package uz.pdp.hotelsystem.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import uz.pdp.hotelsystem.entity.tempAbs.AbsLongEntity;
 import uz.pdp.hotelsystem.enums.StatusBooking;
 
@@ -14,6 +16,8 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @ToString
+@SQLDelete(sql = "UPDATE booking_room SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class BookingRoom extends AbsLongEntity {
 
     @ManyToOne
